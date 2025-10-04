@@ -195,6 +195,11 @@
     "image": "projects/bit-planes/bitplanes.png"
   },
   {
+    "title": "Bitburner",
+    "link": "projects/bitburner/index.html",
+    "image": "‎projects/bitburner/50307d8d84d7930c6e2200647ab1ea76.png"
+  },
+  {
     "title": "BitLife",
     "link": "projects/bitlife/index.html",
     "image": "projects/bitlife/bitlife.png"
@@ -1038,11 +1043,6 @@
     "title": "N-gon",
     "link": "projects/n-gon/index.html",
     "image": "projects/n-gon/img/controls.png"
-  },
-  {
-    "title": "Narrow.one",
-    "link": "projects/narrowone/index.html",
-    "image": "projects/narrowone/poki-narrow-one-icon.png"
   },
   {
     "title": "Nebula",
