@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting...</title>
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: #e0e0e0;
+      font-family: "Segoe UI", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 0.5em;
+    }
+
+    p {
+      opacity: 0.7;
+    }
+
+    .spinner {
+      margin-top: 20px;
+      width: 40px;
+      height: 40px;
+      border: 4px solid #444;
+      border-top: 4px solid #00c6ff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+  <script>
+    // change URL + delay here
+    const redirectURL = "https://ethanytangcodes.github.io/bitburner";
+    const delay = 3000; // 3 seconds
+
+    setTimeout(() => {
+      window.location.href = redirectURL;
+    }, delay);
+  </script>
+</head>
+<body>
+  <h1>Redirecting...</h1>
+  <p>this g4me was too large to fit in with the other games so it is separate</p>
+  <div class="spinner"></div>
+</body>
+</html>
+
