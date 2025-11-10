@@ -20,7 +20,7 @@
     "image": "projects/1on1soccer/logo.jpg"
   },
   {
-    "title": "1v1.lol(bugged)",
+    "title": "1v1.lol(fixed)",
     "link": "projects/1v1lol/index.html",
     "image": "projects/1v1lol/splash.png"
   },
@@ -770,6 +770,11 @@
     "image": "projects/hackertype/logo192.png"
   },
   {
+    "title": "Half life 2",
+    "link": "projects/hl2/index.html",
+    "image": "projects/hl2/cover.svg"
+  },
+  {
     "title": "Halloween 2016",
     "link": "projects/halloween2016/index.html",
     "image": "projects/halloween2016/ntp_bg.jpg"
@@ -778,11 +783,6 @@
     "title": "Happy wheels",
     "link": "projects/happywheels/index.html",
     "image": "projects/happywheels/Untitled.jpeg"
-  },
-  {
-    "title": "Hover bot arena",
-    "link": "projects/hba/index.html",
-    "image": "projects/hba/hoverbotarena.jpg"
   },
   {
     "title": "Helicopter",
@@ -820,14 +820,19 @@
     "image": "projects/hillclimbracing2/cover.svg"
   },
   {
-    "title": "Half life 2",
-    "link": "projects/hl2/index.html",
-    "image": "projects/hl2/cover.svg"
-  },
-  {
     "title": "Hole.io",
     "link": "projects/holeio/index.html",
     "image": "projects/holeio/feature800x470.png"
+  },
+  {
+    "title": "Hollow Knight",
+    "link": "projects/hk/index.html",
+    "image": "projects/hk/hk.jpg"
+  },
+  {
+    "title": "Hover bot arena",
+    "link": "projects/hba/index.html",
+    "image": "projects/hba/hoverbotarena.jpg"
   },
   {
     "title": "Idle breakout",
