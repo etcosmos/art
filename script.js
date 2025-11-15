@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   searchResults.innerHTML = 'Games are loading...';
 
+  // Load favorites from localStorage
+  let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
   try {
     const data = await fetch('games.json').then(res => res.json());
 
@@ -20,10 +23,36 @@ document.addEventListener('DOMContentLoaded', async () => {
       filteredResults.forEach(result => {
         const wrapper = document.createElement('div');
         wrapper.innerHTML = searchResultTemplate.replace(/{{(.*?)}}/g, (match, key) => result[key.trim()]);
-        fragment.appendChild(wrapper.firstElementChild);
+        const gameElement = wrapper.firstElementChild;
+        const starElement = gameElement.querySelector('.favorite-star');
+
+        // Check if game is favorited
+        if (favorites.includes(result.title)) {
+          starElement.classList.add('favorited');
+        }
+
+        // Add click event to star
+        starElement.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          toggleFavorite(result.title, starElement);
+        });
+
+        fragment.appendChild(gameElement);
       });
 
       searchResults.appendChild(fragment);
+    };
+
+    const toggleFavorite = (title, starElement) => {
+      if (favorites.includes(title)) {
+        favorites = favorites.filter(fav => fav !== title);
+        starElement.classList.remove('favorited');
+      } else {
+        favorites.push(title);
+        starElement.classList.add('favorited');
+      }
+      localStorage.setItem('favorites', JSON.stringify(favorites));
     };
 
     // initial render (all games)
