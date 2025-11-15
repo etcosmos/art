@@ -10,7 +10,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
   try {
-    const data = await fetch('games.json').then(res => res.json());
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'games.json', false); // Synchronous request for local file
+    xhr.send();
+    if (xhr.status !== 200) {
+      throw new Error('Failed to load games.json');
+    }
+    const data = JSON.parse(xhr.responseText);
 
     const renderFavorites = () => {
       favoritesGrid.innerHTML = '';
