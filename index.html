@@ -10,12 +10,7 @@
 <body>
   <div class="header" style="height: 300px; text-align: center;">
     <h1 style="margin-top: -10px;" id="h1ani"><b>G4MES</b></h1>
-  </div>
-
-  <hr>
-
-  <div id="searchContainer" style="width: 50%; margin: 0 auto;">
-    <input type="text" id="searchInput" placeholder="Type here to search g4mes..." style="width: 100%;">
+    <p style="color: white; font-family: 'ubuntu sans', sans-serif; margin-top: 10px;">made by ethan</p>
   </div>
 
   <div id="favoritesSection">
@@ -27,9 +22,15 @@
 
   <hr>
 
+  <h2>All Games</h2>
+
+  <div id="searchContainer" style="width: 50%; margin: 0 auto;">
+    <input type="text" id="searchInput" placeholder="Type here to search g4mes..." style="width: 100%;">
+  </div>
+
   <div id="searchResults">
     <script type="text/html" id="searchResultTemplate">
-      <a href="{{link}}" style="text-decoration: none">
+      <a data-link="{{link}}" style="text-decoration: none">
         <div class="rndrec">
           <img src="{{image}}" alt="G4mes loading..." width="200" height="199" loading="lazy">
           {{title}}
