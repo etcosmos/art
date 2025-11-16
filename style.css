@@ -548,6 +548,14 @@ p {
   transition: color 0.3s;
 }
 
+.star.favorited {
+  color: yellow;
+}
+
+.star.not-favorited {
+  color: gray;
+}
+
 .star:hover {
   color: yellow !important;
 }
