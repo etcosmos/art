@@ -10,20 +10,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
   try {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'games.json', false); // Synchronous request for local file
-    xhr.send();
-    if (xhr.status !== 200) {
-      throw new Error('Failed to load games.json');
-    }
-    const data = JSON.parse(xhr.responseText);
+    const data = await fetch('games.json').then(res => res.json());
 
     const renderFavorites = () => {
       favoritesGrid.innerHTML = '';
-      if (favorites.length === 0) {
-        favoritesGrid.innerHTML = '<p style="color: white; text-align: center;">No favorites yet. Click the star on a game to add it here!</p>';
-        return;
-      }
       const favoriteGames = data.filter(game => favorites.includes(game.title));
       const fragment = document.createDocumentFragment();
 
@@ -45,9 +35,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Change link to open in iframe window
         const linkElement = gameElement.querySelector('a');
+        linkElement.href = '#';
         linkElement.addEventListener('click', (e) => {
           e.preventDefault();
-          openGameInWindow(linkElement.getAttribute('data-link'), result.title);
+          openGameInWindow(result.link, result.title);
         });
 
         fragment.appendChild(gameElement);
