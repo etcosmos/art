@@ -539,39 +539,24 @@ p {
   transform: scale(1.05);
 }
 
-.favorite-star {
+.star {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  color: #fff;
+  top: 5px;
+  right: 5px;
   font-size: 24px;
   cursor: pointer;
   transition: color 0.3s;
 }
 
-.favorite-star:hover::after {
-  content: "favorite";
-  position: absolute;
-  top: -30px;
-  right: 0;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  padding: 5px;
-  border-radius: 5px;
-  font-size: 12px;
-  white-space: nowrap;
+.star:hover {
+  color: yellow !important;
 }
 
-.favorite-star.favorited {
-  color: gold;
-}
-
-#favoritesSection {
+#favorites {
+  text-align: center;
   margin: 20px 0;
 }
 
-#favoritesSection h2 {
-  color: white;
-  font-family: 'radio canada big';
-  text-align: center;
+#favoritesCards {
+  justify-content: center;
 }
