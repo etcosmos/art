@@ -1,50 +1,380 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <script src="script.js" defer></script>
-  <link rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png" type="image/png" />
-  <link rel="stylesheet" href="style.css">
-  <link id="theme-style" rel="stylesheet" href="light-theme.css">
-  <title>Home | Drive</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G4MES Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d0d0d;
+            color: #e5e5e5;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        /* Header */
+        .header-section {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 60px 0;
+        }
+
+        .page-title {
+            font-size: 72px;
+            font-weight: 800;
+            color: #e5e5e5;
+            margin-bottom: 8px;
+            letter-spacing: -2px;
+        }
+
+        .page-subtitle {
+            font-size: 18px;
+            color: #888;
+        }
+
+        /* Search Bar */
+        .search-container {
+            margin-bottom: 60px;
+            position: relative;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 18px 20px 18px 50px;
+            background: #1a1a1a;
+            border: 2px solid #2a2a2a;
+            border-radius: 12px;
+            color: #e5e5e5;
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+            font-size: 18px;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section-header {
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #e5e5e5;
+        }
+
+        /* Games Grid */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .game-card {
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid #2a2a2a;
+            position: relative;
+        }
+
+        .game-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        .game-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #2a2a2a;
+        }
+
+        .game-info {
+            padding: 16px;
+        }
+
+        .game-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #e5e5e5;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .favorite-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+            z-index: 10;
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.1);
+            background: rgba(0, 0, 0, 0.9);
+        }
+
+        .favorite-btn i {
+            color: #888;
+            font-size: 18px;
+            transition: color 0.2s ease;
+        }
+
+        .favorite-btn.active i {
+            color: #fbbf24;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #2a2a2a;
+            margin: 40px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .page-title {
+                font-size: 48px;
+            }
+
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 16px;
+            }
+
+            .game-image {
+                height: 150px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="header" style="height: 390px; text-align: center; padding-top: 30px;">
-    <h1 style="margin-top: 0;" id="h1ani"><b>G4MES</b></h1>
-    <h3 style="margin-top: 0;">made by ethan</h3>
-  </div>
-
-  <hr>
-
-  <div id="searchContainer" style="width: 50%; margin: 0 auto;">
-    <input type="text" id="searchInput" placeholder="Type here to search g4mes..." style="width: 100%;">
-  </div>
-
-  <div id="favorites">
-    <h2>Favorites</h2>
-    <div id="favoritesCards" style="display: flex; flex-wrap: wrap;">
-      <!-- Favorited game cards will be added here by JavaScript -->
-    </div>
-  </div>
-
-  <hr>
-
-  <div id="searchResults">
-    <script type="text/html" id="searchResultTemplate">
-      <a href="{{link}}" style="text-decoration: none">
-        <div class="rndrec">
-          <img src="{{image}}" alt="G4mes loading..." width="200" height="199" loading="lazy">
-          {{title}}
+    <div class="container">
+        <!-- Header -->
+        <div class="header-section">
+            <h1 class="page-title">G4MES</h1>
+            <p class="page-subtitle">made by ethan</p>
         </div>
-      </a>
-    </script>
-  </div>
 
-  <hr>
+        <!-- Search Bar -->
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" class="search-input" id="searchInput" placeholder="Type here to search g4mes...">
+        </div>
 
-  <div id="main" style="margin-bottom: 50px;">
-    <div id="cards" style="display: flex; flex-wrap: wrap;">
-      <!-- Game cards will be added here by JavaScript -->
+        <!-- Favorites Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">Favorites</h2>
+            </div>
+            <div id="favoritesContainer">
+                <div class="empty-state">
+                    <i class="fas fa-star"></i>
+                    <p>No favorites yet. Star some games to see them here!</p>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- All Games Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2 class="section-title">All Games</h2>
+            </div>
+            <div id="gamesContainer">
+                <div class="games-grid" id="gamesGrid">
+                    <p style="color: #888;">Loading games...</p>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
+
+    <script>
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        let allGames = [];
+
+        // Load games from JSON
+        async function loadGames() {
+            try {
+                const response = await fetch('games.json');
+                if (!response.ok) throw new Error('Failed to load');
+                allGames = await response.json();
+                console.log('Loaded games:', allGames.length);
+                renderGames(allGames);
+                renderFavorites();
+            } catch (error) {
+                console.error('Error loading games:', error);
+                document.getElementById('gamesGrid').innerHTML = '<p style="color: #888;">Error loading games. Check console for details.</p>';
+            }
+        }
+
+        function createGameCard(game) {
+            const isFav = favorites.includes(game.title);
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            card.innerHTML = `
+                <div class="favorite-btn ${isFav ? 'active' : ''}" data-title="${game.title}">
+                    <i class="fas fa-star"></i>
+                </div>
+                <img src="${game.image}" alt="${game.title}" class="game-image" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22%3E%3Crect fill=%22%232a2a2a%22 width=%22200%22 height=%22200%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 fill=%22%23666%22 text-anchor=%22middle%22 dy=%22.3em%22 font-family=%22Arial%22 font-size=%2214%22%3ENo Image%3C/text%3E%3C/svg%3E'">
+                <div class="game-info">
+                    <div class="game-title">${game.title}</div>
+                </div>
+            `;
+
+            // Click card to navigate
+            card.addEventListener('click', (e) => {
+                if (!e.target.closest('.favorite-btn')) {
+                    window.location.href = game.link;
+                }
+            });
+
+            // Click star to toggle favorite
+            const favBtn = card.querySelector('.favorite-btn');
+            favBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleFavorite(game.title);
+            });
+
+            return card;
+        }
+
+        function renderGames(games) {
+            const grid = document.getElementById('gamesGrid');
+            grid.innerHTML = '';
+            
+            if (games.length === 0) {
+                grid.innerHTML = '<p style="color: #888;">No games found.</p>';
+                return;
+            }
+
+            games.forEach(game => {
+                grid.appendChild(createGameCard(game));
+            });
+        }
+
+        function renderFavorites() {
+            const container = document.getElementById('favoritesContainer');
+            const favGames = allGames.filter(g => favorites.includes(g.title));
+
+            if (favGames.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-star"></i>
+                        <p>No favorites yet. Star some games to see them here!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '<div class="games-grid"></div>';
+            const grid = container.querySelector('.games-grid');
+            
+            favGames.forEach(game => {
+                grid.appendChild(createGameCard(game));
+            });
+        }
+
+        function toggleFavorite(title) {
+            const index = favorites.indexOf(title);
+            if (index > -1) {
+                favorites.splice(index, 1);
+            } else {
+                favorites.push(title);
+            }
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            
+            // Re-render both sections
+            renderGames(allGames);
+            renderFavorites();
+        }
+
+        // Search functionality
+        let searchTimeout;
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const query = e.target.value.toLowerCase().trim();
+                if (query === '') {
+                    renderGames(allGames);
+                } else {
+                    const filtered = allGames.filter(g => 
+                        g.title.toLowerCase().includes(query)
+                    );
+                    renderGames(filtered);
+                }
+            }, 300);
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadGames();
+        });
+    </script>
 </body>
 </html>
