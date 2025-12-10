@@ -5,11 +5,6 @@
     "image": "Assets/home.png"
   },
   {
-    "title": "Feedback or request a game",
-    "link": "https://docs.google.com/forms/d/e/1FAIpQLScDuLLtm7qWruDL31I9IO2doAh6S89Rb-n9vi_Ufp0CowYwfQ/viewform?usp=dialog",
-    "image": "Assets/gamerequest.png"
-  },
-  {
     "title": "1",
     "link": "projects/1/index.html",
     "image": "projects/1/meta/apple-touch-icon.png"
