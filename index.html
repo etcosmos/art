@@ -1,50 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <script src="script.js" defer></script>
-  <link rel="icon" href="https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png" type="image/png" />
-  <link rel="stylesheet" href="style.css">
-  <link id="theme-style" rel="stylesheet" href="light-theme.css">
-  <title>Home | Drive</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Announcement</title>
+<style>
+  /* Basic reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #2c2c34, #3b2c52);
+  }
+
+  .announcement-container {
+    background: rgba(50, 50, 60, 0.4);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 40px 60px;
+    text-align: center;
+    color: #fff;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #d3bfff;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background: rgba(150, 100, 255, 0.2);
+    border: 1px solid rgba(200, 150, 255, 0.3);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+
+  .btn:hover {
+    background: rgba(150, 100, 255, 0.35);
+    transform: translateY(-3px);
+  }
+
+  p {
+    margin-top: 20px;
+    font-size: 0.95rem;
+    color: #e0d9ff;
+  }
+</style>
 </head>
 <body>
-  <div class="header" style="height: 390px; text-align: center; padding-top: 30px;">
-    <h1 style="margin-top: 0;" id="h1ani"><b>G4MES</b></h1>
-    <h3 style="margin-top: 0;">made by ethan</h3>
-  </div>
-
-  <hr>
-
-  <div id="searchContainer" style="width: 50%; margin: 0 auto;">
-    <input type="text" id="searchInput" placeholder="Type here to search g4mes..." style="width: 100%;">
-  </div>
-
-  <div id="favorites">
-    <h2>Favorites</h2>
-    <div id="favoritesCards" style="display: flex; flex-wrap: wrap;">
-      <!-- Favorited game cards will be added here by JavaScript -->
-    </div>
-  </div>
-
-  <hr>
-
-  <div id="searchResults">
-    <script type="text/html" id="searchResultTemplate">
-      <a href="{{link}}" style="text-decoration: none">
-        <div class="rndrec">
-          <img src="{{image}}" alt="G4mes loading..." width="200" height="199" loading="lazy">
-          {{title}}
-        </div>
-      </a>
-    </script>
-  </div>
-
-  <hr>
-
-  <div id="main" style="margin-bottom: 50px;">
-    <div id="cards" style="display: flex; flex-wrap: wrap;">
-      <!-- Game cards will be added here by JavaScript -->
-    </div>
+  <div class="announcement-container">
+    <h1>im scrapping this site</h1>
+    <a href="https://ubgcosmos.github.io" class="btn">new link</a>
+    <p>the link name is a bit obvious i must say</p>
   </div>
 </body>
 </html>
