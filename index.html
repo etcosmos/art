@@ -1,417 +1,366 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>G4MES Portal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G4MES Portal</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0d0d0d;
+    color: #e5e5e5;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px;
+}
+.header-section {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 60px 0;
+}
+.page-title { font-size: 72px; font-weight: 800; color: #e5e5e5; margin-bottom: 8px; letter-spacing: -2px; }
+.page-subtitle { font-size: 18px; color: #888; margin-bottom: 15px; }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0d0d0d;
-            color: #e5e5e5;
-            min-height: 100vh;
-        }
+#saveManagerBtn {
+    background: #1a1a1a;
+    border: 2px solid #2a2a2a;
+    color: #e5e5e5;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s;
+}
+#saveManagerBtn:hover { border-color: #6a0dad; color: #c79bff; }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px;
-        }
+.search-container {
+    margin-bottom: 60px;
+    position: relative;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.search-input {
+    width: 100%;
+    padding: 18px 20px 18px 50px;
+    background: #1a1a1a;
+    border: 2px solid #2a2a2a;
+    border-radius: 12px;
+    color: #e5e5e5;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+.search-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+.search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 18px;
+}
 
-        /* Header */
-        .header-section {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 60px 0;
-        }
+.section { margin-bottom: 60px; }
+.section-title { font-size: 28px; font-weight: 700; color: #e5e5e5; }
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 24px;
+}
+.game-card {
+    background: #1a1a1a;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border: 2px solid #2a2a2a;
+    position: relative;
+}
+.game-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(102,126,234,0.35);
+    border-color: #667eea;
+}
+.game-image { width: 100%; height: 200px; object-fit: cover; background: #2a2a2a; }
+.game-title { font-size: 15px; font-weight: 600; color: #e5e5e5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        .page-title {
-            font-size: 72px;
-            font-weight: 800;
-            color: #e5e5e5;
-            margin-bottom: 8px;
-            letter-spacing: -2px;
-        }
+hr { border: none; border-top: 1px solid #2a2a2a; margin: 40px 0; }
 
-        .page-subtitle {
-            font-size: 18px;
-            color: #888;
-            margin-bottom: 15px;
-        }
+/* SAVE MODAL */
+#saveModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(6px);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    animation: fadeIn 0.25s ease;
+}
+@keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+.save-modal-box {
+    background: #1a1a1a;
+    border: 2px solid #2a2a2a;
+    border-radius: 14px;
+    padding: 30px;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(0,0,0,0.5);
+}
+.save-btn { width: 100%; padding: 14px; border-radius: 12px; cursor: pointer; font-size: 16px; margin-bottom: 15px; border: none; transition: 0.2s; }
+#exportBtn { background: #6a0dad; color: white; }
+#exportBtn:hover { background: #7f24d9; }
+#importLabel { background: #2a2a2a; color: #ccc; display: block; padding: 14px; border-radius: 12px; cursor: pointer; margin-bottom: 20px; }
+#closeSaveModal { background: #2a2a2a; color: #ccc; padding: 10px 20px; border-radius: 10px; cursor: pointer; border: none; transition: 0.2s; }
+#closeSaveModal:hover { background: #3a3a3a; }
 
-        /* Save Manager Button */
-        #saveManagerBtn {
-            background: #1a1a1a;
-            border: 2px solid #2a2a2a;
-            color: #e5e5e5;
-            padding: 10px 16px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: 0.2s;
-        }
-        #saveManagerBtn:hover {
-            border-color: #6a0dad;
-            color: #c79bff;
-        }
+/* GAME IFRAME MODAL - COSMOS STYLE */
+#gameModal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 9998;
+    flex-direction: column;
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.25,1,0.5,1);
+}
+#gameModal.show { transform: translateY(0); display: flex; }
 
-        /* Search Bar */
-        .search-container {
-            margin-bottom: 60px;
-            position: relative;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 18px 20px 18px 50px;
-            background: #1a1a1a;
-            border: 2px solid #2a2a2a;
-            border-radius: 12px;
-            color: #e5e5e5;
-            font-size: 16px;
-            transition: all 0.2s ease;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #888;
-            font-size: 18px;
-        }
-
-        .section {
-            margin-bottom: 60px;
-        }
-
-        .section-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #e5e5e5;
-        }
-
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 24px;
-        }
-
-        .game-card {
-            background: #1a1a1a;
-            border-radius: 12px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: 2px solid #2a2a2a;
-            position: relative;
-        }
-
-        .game-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
-            border-color: #667eea;
-        }
-
-        .game-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            background: #2a2a2a;
-        }
-
-        .game-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: #e5e5e5;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        hr {
-            border: none;
-            border-top: 1px solid #2a2a2a;
-            margin: 40px 0;
-        }
-
-        /* ---- COSMOS UI SAVE MANAGER MODAL ---- */
-        #saveModal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(6px);
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            animation: fadeIn 0.25s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0 }
-            to { opacity: 1 }
-        }
-
-        .save-modal-box {
-            background: #1a1a1a;
-            border: 2px solid #2a2a2a;
-            border-radius: 14px;
-            padding: 30px;
-            max-width: 420px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 0 25px rgba(0,0,0,0.5);
-        }
-
-        .save-btn {
-            width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-bottom: 15px;
-            border: none;
-            transition: 0.2s;
-        }
-
-        #exportBtn {
-            background: #6a0dad;
-            color: white;
-        }
-        #exportBtn:hover {
-            background: #7f24d9;
-        }
-
-        #importLabel {
-            background: #2a2a2a;
-            color: #ccc;
-            display: block;
-            padding: 14px;
-            border-radius: 12px;
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
-
-        #closeSaveModal {
-            background: #2a2a2a;
-            color: #ccc;
-            padding: 10px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            border: none;
-            transition: 0.2s;
-        }
-        #closeSaveModal:hover {
-            background: #3a3a3a;
-        }
-    </style>
+#gameHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1a1a1a;
+    padding: 16px 24px;
+    border-bottom: 2px solid #2a2a2a;
+    color: #e5e5e5;
+    font-weight: 600;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.5);
+}
+#gameIframe {
+    flex: 1;
+    width: 100%;
+    border: none;
+    background: #0d0d0d;
+}
+#closeGame {
+    background: #2a2a2a;
+    color: #ccc;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+#closeGame:hover { background: #3a3a3a; }
+</style>
 </head>
 <body>
-    <div class="container">
+<div class="container">
 
-        <div class="header-section">
-            <h1 class="page-title">G4MES</h1>
-            <p class="page-subtitle">made by ethan</p>
+    <div class="header-section">
+        <h1 class="page-title">G4MES</h1>
+        <p class="page-subtitle">made by ethan</p>
+        <button id="saveManagerBtn">Save Manager</button>
+    </div>
 
-            <!-- SAVE MANAGER BUTTON HERE -->
-            <button id="saveManagerBtn">Save Manager</button>
-        </div>
+    <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" id="searchInput" placeholder="Type here to search g4mes...">
+    </div>
 
-        <div class="search-container">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" class="search-input" id="searchInput" placeholder="Type here to search g4mes...">
-        </div>
-
-        <div class="section">
-            <h2 class="section-title">Favorites</h2>
-            <div id="favoritesContainer">
-                <div class="empty-state">
-                    <i class="fas fa-star"></i>
-                    <p>No favorites yet. Star some games to see them here!</p>
-                </div>
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="section">
-            <h2 class="section-title">All Games</h2>
-            <div id="gamesContainer">
-                <div class="games-grid" id="gamesGrid">
-                    <p style="color: #888;">Loading games...</p>
-                </div>
+    <div class="section">
+        <h2 class="section-title">Favorites</h2>
+        <div id="favoritesContainer">
+            <div class="empty-state">
+                <i class="fas fa-star"></i>
+                <p>No favorites yet. Star some games to see them here!</p>
             </div>
         </div>
     </div>
 
-    <!-- SAVE MODAL -->
-    <div id="saveModal">
-        <div class="save-modal-box">
-            <h2 style="margin-bottom: 10px;">Save Manager</h2>
-            <p style="color: #888; margin-bottom: 20px;">Export or import your game save data</p>
+    <hr>
 
-            <button id="exportBtn" class="save-btn">Export Saves</button>
-
-            <label id="importLabel">
-                <input type="file" id="importFile" accept=".json" style="display:none;">
-                Import Saves
-            </label>
-
-            <button id="closeSaveModal">Close</button>
+    <div class="section">
+        <h2 class="section-title">All Games</h2>
+        <div id="gamesContainer">
+            <div class="games-grid" id="gamesGrid">
+                <p style="color: #888;">Loading games...</p>
+            </div>
         </div>
     </div>
+</div>
 
-    <script>
-        /* your original JS unchanged… */
+<!-- SAVE MODAL -->
+<div id="saveModal">
+    <div class="save-modal-box">
+        <h2 style="margin-bottom: 10px;">Save Manager</h2>
+        <p style="color: #888; margin-bottom: 20px;">Export or import your game save data</p>
+        <button id="exportBtn" class="save-btn">Export Saves</button>
+        <label id="importLabel">
+            <input type="file" id="importFile" accept=".json" style="display:none;">
+            Import Saves
+        </label>
+        <button id="closeSaveModal">Close</button>
+    </div>
+</div>
 
-        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        let allGames = [];
+<!-- GAME IFRAME MODAL -->
+<div id="gameModal">
+    <div id="gameHeader">
+        <span id="gameTitle">Game</span>
+        <button id="closeGame">✕</button>
+    </div>
+    <iframe id="gameIframe" src=""></iframe>
+</div>
 
-        async function loadGames() {
-            try {
-                const response = await fetch('games.json');
-                if (!response.ok) throw new Error('Failed to load');
-                allGames = await response.json();
-                renderGames(allGames);
-                renderFavorites();
-            } catch (error) {
-                document.getElementById('gamesGrid').innerHTML =
-                    '<p style="color: #888;">Error loading games.</p>';
-            }
-        }
+<script>
+let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+let allGames = [];
 
-        function createGameCard(game) {
-            const card = document.createElement('div');
-            const isFav = favorites.includes(game.title);
+async function loadGames() {
+    try {
+        const response = await fetch('games.json');
+        if (!response.ok) throw new Error('Failed to load');
+        allGames = await response.json();
+        renderGames(allGames);
+        renderFavorites();
+    } catch (error) {
+        document.getElementById('gamesGrid').innerHTML =
+            '<p style="color: #888;">Error loading games.</p>';
+    }
+}
 
-            card.className = 'game-card';
-            card.innerHTML = `
-                <div class="favorite-btn ${isFav ? 'active' : ''}" data-title="${game.title}">
-                    <i class="fas fa-star"></i>
-                </div>
-                <img src="${game.image}" class="game-image">
-                <div class="game-info">
-                    <div class="game-title">${game.title}</div>
-                </div>
-            `;
+function createGameCard(game) {
+    const card = document.createElement('div');
+    const isFav = favorites.includes(game.title);
+    card.className = 'game-card';
+    card.innerHTML = `
+        <div class="favorite-btn ${isFav ? 'active' : ''}" data-title="${game.title}">
+            <i class="fas fa-star"></i>
+        </div>
+        <img src="${game.image}" class="game-image">
+        <div class="game-info">
+            <div class="game-title">${game.title}</div>
+        </div>
+    `;
+    card.addEventListener('click', (e) => {
+        if (!e.target.closest('.favorite-btn')) openGame(game);
+    });
+    card.querySelector('.favorite-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleFavorite(game.title);
+    });
+    return card;
+}
 
-            card.addEventListener('click', (e) => {
-                if (!e.target.closest('.favorite-btn')) {
-                    window.location.href = game.link;
-                }
-            });
+function renderGames(games) {
+    const grid = document.getElementById('gamesGrid');
+    grid.innerHTML = '';
+    if (!games.length) return grid.innerHTML = '<p>No games.</p>';
+    games.forEach(g => grid.appendChild(createGameCard(g)));
+}
 
-            card.querySelector('.favorite-btn').addEventListener('click', (e) => {
-                e.stopPropagation();
-                toggleFavorite(game.title);
-            });
+function renderFavorites() {
+    const container = document.getElementById('favoritesContainer');
+    const favGames = allGames.filter(g => favorites.includes(g.title));
+    if (!favGames.length) {
+        return container.innerHTML = `<div class="empty-state">
+            <i class="fas fa-star"></i>
+            <p>No favorites yet.</p>
+        </div>`;
+    }
+    container.innerHTML = '<div class="games-grid"></div>';
+    favGames.forEach(game => container.querySelector('.games-grid').appendChild(createGameCard(game)));
+}
 
-            return card;
-        }
+function toggleFavorite(title) {
+    if (favorites.includes(title)) favorites = favorites.filter(f => f !== title);
+    else favorites.push(title);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    renderGames(allGames);
+    renderFavorites();
+}
 
-        function renderGames(games) {
-            const grid = document.getElementById('gamesGrid');
-            grid.innerHTML = '';
-            if (!games.length) return grid.innerHTML = '<p>No games.</p>';
-            games.forEach(g => grid.appendChild(createGameCard(g)));
-        }
+// Search
+let searchTimeout;
+document.getElementById('searchInput').addEventListener('input', (e) => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        const q = e.target.value.toLowerCase();
+        renderGames(q ? allGames.filter(g => g.title.toLowerCase().includes(q)) : allGames);
+    }, 300);
+});
 
-        function renderFavorites() {
-            const container = document.getElementById('favoritesContainer');
-            const favGames = allGames.filter(g => favorites.includes(g.title));
+document.addEventListener('DOMContentLoaded', loadGames);
 
-            if (!favGames.length) {
-                return container.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-star"></i>
-                    <p>No favorites yet.</p>
-                </div>`;
-            }
+// SAVE MANAGER LOGIC
+const saveBtn = document.getElementById("saveManagerBtn");
+const saveModal = document.getElementById("saveModal");
+const closeSaveModal = document.getElementById("closeSaveModal");
+const exportBtn = document.getElementById("exportBtn");
+const importFile = document.getElementById("importFile");
 
-            container.innerHTML = '<div class="games-grid"></div>';
-            favGames.forEach(game => {
-                container.querySelector('.games-grid').appendChild(createGameCard(game));
-            });
-        }
+saveBtn.addEventListener("click", () => saveModal.style.display = "flex");
+closeSaveModal.addEventListener("click", () => saveModal.style.display = "none");
 
-        function toggleFavorite(title) {
-            if (favorites.includes(title)) {
-                favorites = favorites.filter(f => f !== title);
-            } else favorites.push(title);
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-            renderGames(allGames);
-            renderFavorites();
-        }
+exportBtn.addEventListener("click", () => {
+    const data = {};
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        data[key] = localStorage.getItem(key);
+    }
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "game_saves.json";
+    a.click();
+});
 
-        // Search
-        let searchTimeout;
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                const q = e.target.value.toLowerCase();
-                renderGames(q ? allGames.filter(g => g.title.toLowerCase().includes(q)) : allGames);
-            }, 300);
-        });
+importFile.addEventListener("change", () => {
+    const file = importFile.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+        try {
+            const data = JSON.parse(e.target.result);
+            for (const key in data) localStorage.setItem(key, data[key]);
+            alert("Imported! Refresh page.");
+        } catch { alert("Invalid file."); }
+    };
+    reader.readAsText(file);
+});
 
-        document.addEventListener('DOMContentLoaded', loadGames);
+// GAME IFRAME LOGIC - COSMOS UI
+const gameModal = document.getElementById('gameModal');
+const gameIframe = document.getElementById('gameIframe');
+const gameTitleEl = document.getElementById('gameTitle');
+const closeGameBtn = document.getElementById('closeGame');
 
-        /* ----------------------
-           SAVE MANAGER LOGIC
-        ---------------------- */
+function openGame(game) {
+    gameTitleEl.textContent = game.title;
+    gameIframe.src = game.link;
+    gameModal.classList.add('show');
+}
 
-        const saveBtn = document.getElementById("saveManagerBtn");
-        const saveModal = document.getElementById("saveModal");
-        const closeSaveModal = document.getElementById("closeSaveModal");
-        const exportBtn = document.getElementById("exportBtn");
-        const importFile = document.getElementById("importFile");
-
-        saveBtn.addEventListener("click", () => saveModal.style.display = "flex");
-        closeSaveModal.addEventListener("click", () => saveModal.style.display = "none");
-
-        exportBtn.addEventListener("click", () => {
-            const data = {};
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                data[key] = localStorage.getItem(key);
-            }
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "game_saves.json";
-            a.click();
-        });
-
-        importFile.addEventListener("change", () => {
-            const file = importFile.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = e => {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    for (const key in data) {
-                        localStorage.setItem(key, data[key]);
-                    }
-                    alert("Imported! Refresh page.");
-                } catch {
-                    alert("Invalid file.");
-                }
-            };
-            reader.readAsText(file);
-        });
-    </script>
+closeGameBtn.addEventListener('click', () => {
+    gameIframe.src = '';
+    gameModal.classList.remove('show');
+});
+</script>
 </body>
 </html>
