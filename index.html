@@ -93,7 +93,7 @@ body::after {
 }
 
 .search-container {
-    margin-bottom: 20px;
+    margin-bottom: 60px;
     position: relative;
     max-width: 600px;
     margin-left: auto;
@@ -185,137 +185,6 @@ hr {
     border-top: 1px solid rgba(157, 78, 221, 0.3); 
     margin: 40px 0; 
 }
-
-/* GAME IFRAME MODAL */
-#gameModal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(10, 14, 39, 0.95);
-    backdrop-filter: blur(20px);
-    z-index: 9998;
-    flex-direction: column;
-    transform: translateY(100%);
-    transition: transform 0.35s cubic-bezier(0.25,1,0.5,1);
-}
-
-#gameModal.show { 
-    transform: translateY(0); 
-    display: flex; 
-}
-
-#gameHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(26, 21, 53, 0.8);
-    backdrop-filter: blur(20px);
-    padding: 16px 24px;
-    border-bottom: 2px solid rgba(157, 78, 221, 0.4);
-    color: #e8e8f0;
-    font-weight: 600;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-}
-
-#gameIframe {
-    flex: 1;
-    width: 100%;
-    border: none;
-    background: #0a0e27;
-}
-
-#closeGame {
-    background: linear-gradient(135deg, rgba(157, 78, 221, 0.3), rgba(76, 201, 240, 0.3));
-    color: #e8e8f0;
-    border: 1px solid rgba(157, 78, 221, 0.4);
-    border-radius: 8px;
-    padding: 8px 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 600;
-}
-
-#closeGame:hover { 
-    background: linear-gradient(135deg, #9d4edd, #4cc9f0);
-    box-shadow: 0 0 20px rgba(157, 78, 221, 0.6);
-}
-
-/* Toggle Switch */
-.toggle-container {
-    text-align: center;
-    margin-bottom: 40px;
-    padding: 20px 0;
-}
-
-.toggle-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 15px;
-    cursor: pointer;
-    position: relative;
-}
-
-.toggle-label input[type="checkbox"] {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.toggle-slider {
-    width: 60px;
-    height: 30px;
-    background: rgba(26, 21, 53, 0.8);
-    border: 2px solid rgba(157, 78, 221, 0.4);
-    border-radius: 15px;
-    position: relative;
-    transition: all 0.3s ease;
-}
-
-.toggle-slider::after {
-    content: '';
-    position: absolute;
-    width: 22px;
-    height: 22px;
-    background: linear-gradient(135deg, #9d4edd, #4cc9f0);
-    border-radius: 50%;
-    top: 2px;
-    left: 2px;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(157, 78, 221, 0.4);
-}
-
-.toggle-label input:checked + .toggle-slider {
-    background: rgba(157, 78, 221, 0.3);
-    border-color: #9d4edd;
-}
-
-.toggle-label input:checked + .toggle-slider::after {
-    transform: translateX(30px);
-}
-
-.toggle-text {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #b8b8c8;
-}
-
-.mode-iframe, .mode-redirect {
-    transition: all 0.3s ease;
-}
-
-.toggle-label input:checked ~ .toggle-text .mode-iframe {
-    color: #9d4edd;
-    text-shadow: 0 0 10px rgba(157, 78, 221, 0.5);
-}
-
-.toggle-label input:not(:checked) ~ .toggle-text .mode-redirect {
-    color: #4cc9f0;
-    text-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
-}
 </style>
 </head>
 <body>
@@ -329,17 +198,6 @@ hr {
     <div class="search-container">
         <i class="fas fa-search search-icon"></i>
         <input type="text" class="search-input" id="searchInput" placeholder="Type here to search g4mes...">
-    </div>
-
-    <div class="toggle-container">
-        <label class="toggle-label">
-            <input type="checkbox" id="modeToggle" checked>
-            <span class="toggle-slider"></span>
-            <span class="toggle-text">
-                <span class="mode-iframe">Iframe Mode (has a x button)</span>
-                <span class="mode-redirect">Regular Mode (less lag)</span>
-            </span>
-        </label>
     </div>
 
     <div class="section">
@@ -364,18 +222,9 @@ hr {
     </div>
 </div>
 
-<div id="gameModal">
-    <div id="gameHeader">
-        <span id="gameTitle">Game</span>
-        <button id="closeGame">✕ Close</button>
-    </div>
-    <iframe id="gameIframe" src=""></iframe>
-</div>
-
 <script>
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 let allGames = [];
-let iframeMode = localStorage.getItem('iframeMode') !== 'false'; // defaults to true
 
 async function loadGames() {
     try {
@@ -389,19 +238,6 @@ async function loadGames() {
             '<p style="color: #888;">Error loading games.</p>';
     }
 }
-
-// Initialize toggle state
-document.addEventListener('DOMContentLoaded', () => {
-    const toggle = document.getElementById('modeToggle');
-    toggle.checked = iframeMode;
-    
-    toggle.addEventListener('change', (e) => {
-        iframeMode = e.target.checked;
-        localStorage.setItem('iframeMode', iframeMode);
-    });
-    
-    loadGames();
-});
 
 function createGameCard(game) {
     const card = document.createElement('div');
@@ -417,7 +253,22 @@ function createGameCard(game) {
         </div>
     `;
     card.addEventListener('click', (e) => {
-        if (!e.target.closest('.favorite-btn')) openGame(game);
+        if (!e.target.closest('.favorite-btn')) {
+            let gameUrl = game.link;
+            // If it's a relative path (like projects/...), prepend the base URL
+            if (!gameUrl.startsWith('http://') && !gameUrl.startsWith('https://') && !gameUrl.startsWith('/')) {
+                gameUrl = 'https://ubgcosmos.github.io/' + gameUrl;
+            }
+            
+            // Check if we're in an iframe
+            if (window.self !== window.top) {
+                // We're in an iframe, navigate the current frame
+                window.location.href = gameUrl;
+            } else {
+                // We're not in an iframe, open in new tab
+                window.open(gameUrl, '_blank');
+            }
+        }
     });
     card.querySelector('.favorite-btn').addEventListener('click', (e) => {
         e.stopPropagation();
@@ -463,25 +314,7 @@ document.getElementById('searchInput').addEventListener('input', (e) => {
     }, 300);
 });
 
-const gameModal = document.getElementById('gameModal');
-const gameIframe = document.getElementById('gameIframe');
-const gameTitleEl = document.getElementById('gameTitle');
-const closeGameBtn = document.getElementById('closeGame');
-
-function openGame(game) {
-    if (iframeMode) {
-        gameTitleEl.textContent = game.title;
-        gameIframe.src = game.link;
-        gameModal.classList.add('show');
-    } else {
-        window.open(game.link, '_blank');
-    }
-}
-
-closeGameBtn.addEventListener('click', () => {
-    gameIframe.src = '';
-    gameModal.classList.remove('show');
-});
+document.addEventListener('DOMContentLoaded', loadGames);
 </script>
 </body>
 </html>
