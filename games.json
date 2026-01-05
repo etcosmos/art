@@ -985,11 +985,6 @@
     "image": "projects/metroidzeromission/zero.jpeg"
   },
   {
-    "title": "Minecraft(1.8.8, 1.5.2, 1.12.2, etc.)",
-    "link": "https://ubgcosmos.github.io/mc",
-    "image": "projects/minecraft/splash.jpeg"
-  },
-  {
     "title": "Minesweeper",
     "link": "projects/minesweeper/index.html",
     "image": "projects/minesweeper/cover.svg"
