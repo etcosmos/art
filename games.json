@@ -5,11 +5,6 @@
     "image": "Assets/home.png"
   },
   {
-    "title": "Feedback or request a game",
-    "link": "https://docs.google.com/forms/d/e/1FAIpQLScDuLLtm7qWruDL31I9IO2doAh6S89Rb-n9vi_Ufp0CowYwfQ/viewform?usp=dialog",
-    "image": "Assets/gamerequest.png"
-  },
-  {
     "title": "1",
     "link": "projects/1/index.html",
     "image": "projects/1/meta/apple-touch-icon.png"
@@ -855,11 +850,6 @@
     "image": "projects/impossiblequiz/impossiblequiz.png"
   },
   {
-    "title": "Minecraft infdev",
-    "link": "projects/inf/index.html",
-    "image": "projects/inf/cover.svg"
-  },
-  {
     "title": "Infiltrating the ASP",
     "link": "projects/infiltratingtheairship/index.html",
     "image": "projects/infiltratingtheairship/air.avif"
@@ -985,11 +975,6 @@
     "image": "projects/mc-sp1/cover.svg"
   },
   {
-    "title": "Minecraft classic",
-    "link": "projects/mcclassic/index.html",
-    "image": "projects/mcclassic/assets/textures/grass_dirt.png"
-  },
-  {
     "title": "Meme 2048",
     "link": "projects/meme2048/index.html",
     "image": "projects/meme2048/favicon.ico"
@@ -1000,13 +985,8 @@
     "image": "projects/metroidzeromission/zero.jpeg"
   },
   {
-    "title": "Minecraft tower defense",
-    "link": "projects/minecraft-tower-defence-2/index.html",
-    "image": "projects/minecraft-tower-defence-2/cover.svg"
-  },
-  {
-    "title": "Minecraft",
-    "link": "projects/minecraft/index.html",
+    "title": "Minecraft(1.8.8, 1.5.2, 1.12.2, etc.)",
+    "link": "https://ubgcosmos.github.io/mc",
     "image": "projects/minecraft/splash.jpeg"
   },
   {
@@ -1088,11 +1068,6 @@
     "title": "Off road",
     "link": "projects/off/index.html",
     "image": "projects/off/cover.svg"
-  },
-  {
-    "title": "Offline minecraft",
-    "link": "projects/offline-mc/index.html",
-    "image": "projects/offline-mc/logo.png"
   },
   {
     "title": "Offline paradise",

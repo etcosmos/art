@@ -3,74 +3,318 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Announcement</title>
+<title>G4MES Portal</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-  /* Basic reset */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-  body {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #2c2c34, #3b2c52);
-  }
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1535 50%, #2d1b4e 100%);
+    color: #e8e8f0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
 
-  .announcement-container {
-    background: rgba(50, 50, 60, 0.4);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 40px 60px;
+/* Animated Cosmic Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(ellipse at 20% 30%, rgba(157, 78, 221, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(76, 201, 240, 0.15) 0%, transparent 50%);
+    z-index: -1;
+    animation: cosmicShift 20s ease-in-out infinite;
+}
+
+@keyframes cosmicShift {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.1); }
+}
+
+/* Starfield */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20% 30%, white, transparent),
+        radial-gradient(1px 1px at 60% 70%, rgba(157, 78, 221, 0.8), transparent),
+        radial-gradient(1px 1px at 80% 10%, rgba(76, 201, 240, 0.8), transparent);
+    background-size: 200% 200%;
+    animation: stars 60s linear infinite;
+    opacity: 0.6;
+    z-index: -1;
+}
+
+@keyframes stars {
+    from { background-position: 0 0; }
+    to { background-position: -200% -200%; }
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px;
+    position: relative;
+    z-index: 1;
+}
+
+.header-section {
     text-align: center;
-    color: #fff;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-    max-width: 400px;
-  }
+    margin-bottom: 40px;
+    padding: 60px 0;
+}
 
-  h1 {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-    color: #d3bfff;
-  }
+.page-title { 
+    font-size: 72px; 
+    font-weight: 800; 
+    background: linear-gradient(90deg, #9d4edd, #4cc9f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px; 
+    letter-spacing: -2px;
+    text-shadow: 0 0 40px rgba(157, 78, 221, 0.5);
+}
 
-  .btn {
-    display: inline-block;
-    padding: 12px 30px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #fff;
-    background: rgba(150, 100, 255, 0.2);
-    border: 1px solid rgba(200, 150, 255, 0.3);
-    border-radius: 50px;
+.page-subtitle { 
+    font-size: 18px; 
+    color: #b8b8c8; 
+    margin-bottom: 15px; 
+}
+
+.search-container {
+    margin-bottom: 60px;
+    position: relative;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-input {
+    width: 100%;
+    padding: 18px 20px 18px 50px;
+    background: rgba(26, 21, 53, 0.6);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(157, 78, 221, 0.3);
+    border-radius: 12px;
+    color: #e8e8f0;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #9d4edd;
+    box-shadow: 0 0 30px rgba(157, 78, 221, 0.4);
+    background: rgba(26, 21, 53, 0.8);
+}
+
+.search-icon {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9d4edd;
+    font-size: 18px;
+}
+
+.section { margin-bottom: 60px; }
+
+.section-title { 
+    font-size: 28px; 
+    font-weight: 700; 
+    color: #e8e8f0;
+    background: linear-gradient(90deg, #9d4edd, #4cc9f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 24px;
+}
+
+.game-card {
+    background: rgba(26, 21, 53, 0.6);
+    backdrop-filter: blur(15px);
+    border-radius: 16px;
+    overflow: hidden;
     cursor: pointer;
     transition: all 0.3s ease;
-    text-decoration: none;
-  }
+    border: 2px solid rgba(157, 78, 221, 0.3);
+    position: relative;
+}
 
-  .btn:hover {
-    background: rgba(150, 100, 255, 0.35);
-    transform: translateY(-3px);
-  }
+.game-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(157, 78, 221, 0.4), 0 0 40px rgba(76, 201, 240, 0.3);
+    border-color: #9d4edd;
+}
 
-  p {
-    margin-top: 20px;
-    font-size: 0.95rem;
-    color: #e0d9ff;
-  }
+.game-image { 
+    width: 100%; 
+    height: 200px; 
+    object-fit: cover; 
+    background: rgba(10, 14, 39, 0.6);
+}
+
+.game-title { 
+    font-size: 15px; 
+    font-weight: 600; 
+    color: #e8e8f0;
+    padding: 12px;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+}
+
+hr { 
+    border: none; 
+    border-top: 1px solid rgba(157, 78, 221, 0.3); 
+    margin: 40px 0; 
+}
 </style>
 </head>
 <body>
-  <div class="announcement-container">
-    <h1>im scrapping this site</h1>
-    <a href="https://ubgcosmos.github.io" class="btn">new link</a>
-    <p>the link name is a bit obvious i must say</p>
-  </div>
+<div class="container">
+
+    <div class="header-section">
+        <h1 class="page-title">G4MES</h1>
+        <p class="page-subtitle">made by ethan</p>
+    </div>
+
+    <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" id="searchInput" placeholder="Type here to search g4mes...">
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Favorites</h2>
+        <div id="favoritesContainer">
+            <div class="empty-state">
+                <i class="fas fa-star"></i>
+                <p>No favorites yet. Star some games to see them here!</p>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="section">
+        <h2 class="section-title">All Games</h2>
+        <div id="gamesContainer">
+            <div class="games-grid" id="gamesGrid">
+                <p style="color: #888;">Loading games...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+let allGames = [];
+
+async function loadGames() {
+    try {
+        const response = await fetch('games.json');
+        if (!response.ok) throw new Error('Failed to load');
+        allGames = await response.json();
+        renderGames(allGames);
+        renderFavorites();
+    } catch (error) {
+        document.getElementById('gamesGrid').innerHTML =
+            '<p style="color: #888;">Error loading games.</p>';
+    }
+}
+
+function createGameCard(game) {
+    const card = document.createElement('div');
+    const isFav = favorites.includes(game.title);
+    card.className = 'game-card';
+    card.innerHTML = `
+        <div class="favorite-btn ${isFav ? 'active' : ''}" data-title="${game.title}">
+            <i class="fas fa-star"></i>
+        </div>
+        <img src="${game.image}" class="game-image">
+        <div class="game-info">
+            <div class="game-title">${game.title}</div>
+        </div>
+    `;
+    card.addEventListener('click', (e) => {
+        if (!e.target.closest('.favorite-btn')) {
+            let gameUrl = game.link;
+            // If it's a relative path (like projects/...), prepend the base URL
+            if (!gameUrl.startsWith('http://') && !gameUrl.startsWith('https://') && !gameUrl.startsWith('/')) {
+                gameUrl = 'https://ubgcosmos.github.io/docs/' + gameUrl;
+            }
+            
+            // Check if we're in an iframe
+            if (window.self !== window.top) {
+                // We're in an iframe, navigate the current frame
+                window.location.href = gameUrl;
+            } else {
+                // We're not in an iframe, open in new tab
+                window.open(gameUrl, '_blank');
+            }
+        }
+    });
+    card.querySelector('.favorite-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleFavorite(game.title);
+    });
+    return card;
+}
+
+function renderGames(games) {
+    const grid = document.getElementById('gamesGrid');
+    grid.innerHTML = '';
+    if (!games.length) return grid.innerHTML = '<p>No games.</p>';
+    games.forEach(g => grid.appendChild(createGameCard(g)));
+}
+
+function renderFavorites() {
+    const container = document.getElementById('favoritesContainer');
+    const favGames = allGames.filter(g => favorites.includes(g.title));
+    if (!favGames.length) {
+        return container.innerHTML = `<div class="empty-state">
+            <i class="fas fa-star"></i>
+            <p>No favorites yet.</p>
+        </div>`;
+    }
+    container.innerHTML = '<div class="games-grid"></div>';
+    favGames.forEach(game => container.querySelector('.games-grid').appendChild(createGameCard(game)));
+}
+
+function toggleFavorite(title) {
+    if (favorites.includes(title)) favorites = favorites.filter(f => f !== title);
+    else favorites.push(title);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    renderGames(allGames);
+    renderFavorites();
+}
+
+let searchTimeout;
+document.getElementById('searchInput').addEventListener('input', (e) => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        const q = e.target.value.toLowerCase();
+        renderGames(q ? allGames.filter(g => g.title.toLowerCase().includes(q)) : allGames);
+    }, 300);
+});
+
+document.addEventListener('DOMContentLoaded', loadGames);
+</script>
 </body>
 </html>
