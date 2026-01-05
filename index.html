@@ -259,15 +259,7 @@ function createGameCard(game) {
             if (!gameUrl.startsWith('http://') && !gameUrl.startsWith('https://') && !gameUrl.startsWith('/')) {
                 gameUrl = 'https://ethanytangcodes.github.io/art/' + gameUrl;
             }
-            
-            // Check if we're in an iframe
-            if (window.self !== window.top) {
-                // We're in an iframe, navigate the current frame
-                window.location.href = gameUrl;
-            } else {
-                // We're not in an iframe, open in new tab
-                window.open(gameUrl, '_blank');
-            }
+            window.location.href = gameUrl;
         }
     });
     card.querySelector('.favorite-btn').addEventListener('click', (e) => {
