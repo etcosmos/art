@@ -100,6 +100,11 @@
     "image": "projects/ageofwar/warofage.jpg"
   },
   {
+    "title": "Ages of conflict",
+    "link": "projects/agesofconflict/index.html",
+    "image": "projects/agesofconflict/splash.jpg"
+  },
+  {
     "title": "Alien hominid",
     "link": "projects/alienhominid/index.html",
     "image": "projects/alienhominid/alienhominid.jpeg"
