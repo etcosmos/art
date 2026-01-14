@@ -138,6 +138,7 @@ body::after {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    margin-bottom: 30px;
 }
 
 .games-grid {
@@ -170,6 +171,10 @@ body::after {
     background: rgba(10, 14, 39, 0.6);
 }
 
+.game-info {
+    position: relative;
+}
+
 .game-title { 
     font-size: 15px; 
     font-weight: 600; 
@@ -180,14 +185,194 @@ body::after {
     text-overflow: ellipsis; 
 }
 
+.favorite-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(26, 21, 53, 0.9);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(157, 78, 221, 0.3);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.favorite-btn:hover {
+    background: rgba(157, 78, 221, 0.3);
+    border-color: #9d4edd;
+    transform: scale(1.1);
+}
+
+.favorite-btn i {
+    color: rgba(157, 78, 221, 0.6);
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.favorite-btn.active {
+    background: rgba(157, 78, 221, 0.3);
+    border-color: #9d4edd;
+}
+
+.favorite-btn.active i {
+    color: #ffd700;
+}
+
+.new-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: linear-gradient(135deg, #ff006e, #ff4d6d);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(255, 0, 110, 0.4);
+    animation: newBadgePulse 2s ease-in-out infinite;
+    z-index: 5;
+}
+
+@keyframes newBadgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #b8b8c8;
+}
+
+.empty-state i {
+    font-size: 48px;
+    color: rgba(157, 78, 221, 0.4);
+    margin-bottom: 20px;
+}
+
+.empty-state p {
+    font-size: 16px;
+}
+
 hr { 
     border: none; 
     border-top: 1px solid rgba(157, 78, 221, 0.3); 
     margin: 40px 0; 
 }
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; }
+}
+
+.modal-content {
+    background: linear-gradient(135deg, rgba(26, 21, 53, 0.95), rgba(45, 27, 78, 0.95));
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(157, 78, 221, 0.5);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(157, 78, 221, 0.4);
+    transform: scale(0.9);
+    animation: modalPop 0.3s ease forwards;
+}
+
+@keyframes modalPop {
+    to { transform: scale(1); }
+}
+
+.modal-content h2 {
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #9d4edd, #4cc9f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+}
+
+.modal-content p {
+    color: #b8b8c8;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.modal-close-btn {
+    background: linear-gradient(135deg, #9d4edd, #4cc9f0);
+    color: white;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.modal-close-btn.enabled {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-close-btn.enabled:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(157, 78, 221, 0.5);
+}
+
+.modal-timer {
+    color: #9d4edd;
+    font-size: 14px;
+    margin-top: 10px;
+    font-weight: 600;
+}
 </style>
 </head>
 <body>
+<!-- Welcome Modal -->
+<div class="modal-overlay" id="welcomeModal">
+    <div class="modal-content">
+        <h2>Welcome to G4MES! 🎮</h2>
+        <p>Discover and play amazing games. Star your favorites to keep them handy!</p>
+        <button class="modal-close-btn" id="modalCloseBtn" disabled>
+            Close
+        </button>
+        <div class="modal-timer" id="modalTimer">Please wait 3 seconds...</div>
+    </div>
+</div>
+
 <div class="container">
 
     <div class="header-section">
@@ -223,6 +408,30 @@ hr {
 </div>
 
 <script>
+// Modal functionality
+let countdown = 3;
+const modal = document.getElementById('welcomeModal');
+const closeBtn = document.getElementById('modalCloseBtn');
+const timerText = document.getElementById('modalTimer');
+
+const timer = setInterval(() => {
+    countdown--;
+    if (countdown > 0) {
+        timerText.textContent = `Please wait ${countdown} second${countdown !== 1 ? 's' : ''}...`;
+    } else {
+        timerText.textContent = 'You can close now!';
+        closeBtn.disabled = false;
+        closeBtn.classList.add('enabled');
+        clearInterval(timer);
+    }
+}, 1000);
+
+closeBtn.addEventListener('click', () => {
+    modal.style.animation = 'fadeOut 0.3s ease forwards';
+    setTimeout(() => modal.style.display = 'none', 300);
+});
+
+// Game functionality
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 let allGames = [];
 
@@ -244,10 +453,11 @@ function createGameCard(game) {
     const isFav = favorites.includes(game.title);
     card.className = 'game-card';
     card.innerHTML = `
+        ${game.new === 'true' ? '<div class="new-badge">New</div>' : ''}
         <div class="favorite-btn ${isFav ? 'active' : ''}" data-title="${game.title}">
             <i class="fas fa-star"></i>
         </div>
-        <img src="${game.image}" class="game-image">
+        <img src="${game.image}" class="game-image" alt="${game.title}">
         <div class="game-info">
             <div class="game-title">${game.title}</div>
         </div>
@@ -272,7 +482,7 @@ function createGameCard(game) {
 function renderGames(games) {
     const grid = document.getElementById('gamesGrid');
     grid.innerHTML = '';
-    if (!games.length) return grid.innerHTML = '<p>No games.</p>';
+    if (!games.length) return grid.innerHTML = '<p style="color: #888;">No games found.</p>';
     games.forEach(g => grid.appendChild(createGameCard(g)));
 }
 
@@ -282,7 +492,7 @@ function renderFavorites() {
     if (!favGames.length) {
         return container.innerHTML = `<div class="empty-state">
             <i class="fas fa-star"></i>
-            <p>No favorites yet.</p>
+            <p>No favorites yet. Star some games to see them here!</p>
         </div>`;
     }
     container.innerHTML = '<div class="games-grid"></div>';
