@@ -364,10 +364,8 @@ hr {
 <!-- Welcome Modal -->
 <div class="modal-overlay" id="welcomeModal">
     <div class="modal-content">
-        <h2>welcome my friend</h2>
-        <p>i am about to add tons of games so i added a sign that shows if a game has been added in the past like month or so</p>
-        <p>i worked really hard on this so a little thank you would be nice</p>
-        <p>please give suggestions for more games</p>
+        <h2>Welcome to G4MES! 🎮</h2>
+        <p>Discover and play amazing games. Star your favorites to keep them handy!</p>
         <button class="modal-close-btn" id="modalCloseBtn" disabled>
             Close
         </button>
@@ -433,9 +431,18 @@ closeBtn.addEventListener('click', () => {
     setTimeout(() => modal.style.display = 'none', 300);
 });
 
-// Game functionality
-let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+// Game functionality - Using in-memory storage instead of localStorage
+let favorites = [];
 let allGames = [];
+
+// Try to get favorites from localStorage if available, otherwise use memory
+try {
+    const stored = localStorage.getItem('favorites');
+    if (stored) favorites = JSON.parse(stored);
+} catch (e) {
+    // localStorage not available, use in-memory storage
+    console.log('Using in-memory storage');
+}
 
 async function loadGames() {
     try {
@@ -502,9 +509,19 @@ function renderFavorites() {
 }
 
 function toggleFavorite(title) {
-    if (favorites.includes(title)) favorites = favorites.filter(f => f !== title);
-    else favorites.push(title);
-    localStorage.setItem('favorites', JSON.stringify(favorites));
+    if (favorites.includes(title)) {
+        favorites = favorites.filter(f => f !== title);
+    } else {
+        favorites.push(title);
+    }
+    
+    // Try to save to localStorage if available
+    try {
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+    } catch (e) {
+        // localStorage not available, favorites will be lost on refresh
+    }
+    
     renderGames(allGames);
     renderFavorites();
 }
