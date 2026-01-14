@@ -103,6 +103,7 @@
     "title": "Ages of conflict",
     "link": "projects/agesofconflict/index.html",
     "image": "projects/agesofconflict/splash.jpg"
+    "new" : "true"
   },
   {
     "title": "Alien hominid",
@@ -138,6 +139,7 @@
     "title": "Awesome Tanks 2",
     "link": "projects/awesometanks/index.html",
     "image": "projects/awesometanks/cover.svg"
+    "new" : "true"
   },
   {
     "title": "Backrooms",
