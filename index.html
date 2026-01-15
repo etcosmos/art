@@ -224,28 +224,6 @@ body::after {
     color: #ffd700;
 }
 
-.new-badge {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: linear-gradient(135deg, #ff006e, #ff4d6d);
-    color: white;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    box-shadow: 0 4px 15px rgba(255, 0, 110, 0.4);
-    animation: newBadgePulse 2s ease-in-out infinite;
-    z-index: 5;
-}
-
-@keyframes newBadgePulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-
 .empty-state {
     text-align: center;
     padding: 60px 20px;
@@ -364,12 +342,13 @@ hr {
 <!-- Welcome Modal -->
 <div class="modal-overlay" id="welcomeModal">
     <div class="modal-content">
-        <h2>Welcome to G4MES! 🎮</h2>
-        <p>Discover and play amazing games. Star your favorites to keep them handy!</p>
+        <h2>welcome to games</h2>
+        <p>hope you like it</p>
+        <p>btw i put this here if i wanted to anounce something</p>
         <button class="modal-close-btn" id="modalCloseBtn" disabled>
             Close
         </button>
-        <div class="modal-timer" id="modalTimer">Please wait 3 seconds...</div>
+        <div class="modal-timer" id="modalTimer">Please wait 1 second...</div>
     </div>
 </div>
 
@@ -409,7 +388,7 @@ hr {
 
 <script>
 // Modal functionality
-let countdown = 3;
+let countdown = 1;
 const modal = document.getElementById('welcomeModal');
 const closeBtn = document.getElementById('modalCloseBtn');
 const timerText = document.getElementById('modalTimer');
@@ -462,7 +441,6 @@ function createGameCard(game) {
     const isFav = favorites.includes(game.title);
     card.className = 'game-card';
     card.innerHTML = `
-        ${game.new === 'true' ? '<div class="new-badge">New</div>' : ''}
         <div class="favorite-btn ${isFav ? 'active' : ''}" data-title="${game.title}">
             <i class="fas fa-star"></i>
         </div>
