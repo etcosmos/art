@@ -485,6 +485,11 @@
     "image": "projects/endlesswar3/endlesswar3.png"
   },
   {
+    "title": "Escape road",
+    "link": "projects/escaperoad/index.html",
+    "image": "projects/escaperoad/splash.jpg"
+  },
+  {
     "title": "Escaping the prison",
     "link": "projects/escapingtheprison/index.html",
     "image": "projects/escapingtheprison/pwison.avif"
