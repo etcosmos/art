@@ -287,7 +287,7 @@
   {
     "title": "Block Blast",
     "link": "projects/blockblast/index.html",
-    "image": "projects/blockblast/splash.png"
+    "image": "projects/blockblast/splash.jpg"
   },
   {
     "title": "Blood tournament",
@@ -360,14 +360,14 @@
     "image": "projects/canyondefense/canyondefense.png"
   },
   {
-    "title": "Celeste",
+    "title": "Celeste PICO",
     "link": "projects/celeste/index.html",
     "image": "projects/celeste/icon.png"
   },
   {
-    "title": "Celeste Real",
+    "title": "Celeste(full)",
     "link": "projects/celestereal/index.html",
-    "image": "projects/celestereal/splash.png"
+    "image": "projects/celestereal/splash.jpg"
   },
   {
     "title": "Cell Machine",
@@ -410,9 +410,9 @@
     "image": "projects/circloo2/splash.png"
   },
   {
-    "title": "Clash",
+    "title": "Clash of Vikings",
     "link": "projects/clash/index.html",
-    "image": "projects/clash/splash.png"
+    "image": "projects/clash/splash.jpg"
   },
   {
     "title": "Clicker Heroes",
@@ -452,7 +452,7 @@
   {
     "title": "Cookie Clicker",
     "link": "projects/cookie-clicker/index.html",
-    "image": "projects/cookie-clicker/splash.png"
+    "image": "projects/cookie-clicker/splash.jpg"
   },
   {
     "title": "Cookie Clicker",
@@ -1072,7 +1072,7 @@
 {
 "title": "Ice Dodo",
 "link": "projects/icedodo/index.html",
-"image": "projects/icedodo/splash.png"
+"image": "projects/icedodo/splash.jpg"
 },
 {
 "title": "Idle breakout",
@@ -1087,7 +1087,7 @@
 {
 "title": "Idle Mining Empire",
 "link": "projects/idleminingempire/index.html",
-"image": "projects/idleminingempire/splash.png"
+"image": "projects/idleminingempire/splash.jpg"
 },
 {
 "title": "Impossible quiz",
@@ -1512,7 +1512,7 @@
 {
 "title": "Plants vs Zombies",
 "link": "projects/pvz/index.html",
-"image": "projects/pvz/splash.png"
+"image": "projects/pvz/splash.jpg"
 },
 {
 "title": "Rabbit",
@@ -1527,7 +1527,7 @@
 {
 "title": "Ragdoll Hit",
 "link": "projects/ragdollhit/index.html",
-"image": "projects/ragdollhit/splash.png"
+"image": "projects/ragdollhit/splash.jpg"
 },
 {
 "title": "Rainbow Obby",
@@ -1902,7 +1902,7 @@
 {
 "title": "Tag",
 "link": "projects/tag/index.html",
-"image": "projects/tag/splash.png"
+"image": "projects/tag/splash.jpg"
 },
 {
 "title": "Tank trouble 2",
