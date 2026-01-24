@@ -50,11 +50,6 @@
     "image": "projects/60sburgerrun/icon.png"
   },
   {
-    "title": "100ng",
-    "link": "projects/100ng/index.html",
-    "image": "Assets/errnoimg.png"
-  },
-  {
     "title": "2020 game",
     "link": "projects/2020-game/index.html",
     "image": "projects/2020-game/icon.jpeg"
@@ -113,11 +108,6 @@
     "title": "Alien invaders",
     "link": "projects/alien-invaders-io/index.html",
     "image": "projects/alien-invaders-io/splash.jfif"
-  },
-  {
-    "title": "Align 4",
-    "link": "projects/align-4/index.html",
-    "image": "Assets/errnoimg.png"
   },
   {
     "title": "Amazing rope police",
@@ -385,11 +375,6 @@
     "image": "projects/death-run-3d/img/death.png"
   },
   {
-    "title": "Deepest",
-    "link": "projects/deepest/index.html",
-    "image": "Assets/errnoimg.png"
-  },
-  {
     "title": "Defend the tank",
     "link": "projects/defend-the-tank/index.html",
     "image": "projects/defend-the-tank/portrait-start.jpg"
@@ -413,11 +398,6 @@
     "title": "Doodle jump",
     "link": "projects/doodle-jump/index.html",
     "image": "projects/doodle-jump/doodle.png"
-  },
-  {
-    "title": "Doom",
-    "link": "projects/doom/index.html",
-    "image": "Assets/errnoimg.png"
   },
   {
     "title": "Double wires",
@@ -515,11 +495,6 @@
     "image": "projects/emulatorjs/logo.png"
   },
   {
-    "title": "Enchant",
-    "link": "projects/enchant/index.html",
-    "image": "Assets/errnoimg.png"
-  },
-  {
     "title": "Endless war 3",
     "link": "projects/endlesswar3/index.html",
     "image": "projects/endlesswar3/endlesswar3.png"
@@ -588,11 +563,6 @@
     "title": "Fireboy Watergirl 4",
     "link": "projects/fireboywatergirl4/index.html",
     "image": "projects/fireboywatergirl4/300.jpg"
-  },
-  {
-    "title": "Flappy 2048",
-    "link": "projects/flappy-2048/index.html",
-    "image": "Assets/errnoimg.png"
   },
   {
     "title": "Flappy bird",
@@ -908,11 +878,6 @@
     "title": "Idle Mining Empire",
     "link": "projects/idleminingempire/index.html",
     "image": "projects/idleminingempire/splash.jpg"
-  },
-  {
-    "title": "Idle shark",
-    "link": "projects/idle-shark/index.html",
-    "image": "Assets/errnoimg.png"
   },
   {
     "title": "Impossible quiz",
@@ -1238,11 +1203,6 @@
     "title": "Pi",
     "link": "projects/pi/index.html",
     "image": "projects/pi/cover.svg"
-  },
-  {
-    "title": "Pizza tower",
-    "link": "projects/pizzatower/index.html",
-    "image": "Assets/errnoimg.png"
   },
   {
     "title": "Plants vs Zombies",
