@@ -17,7 +17,6 @@ body {
     position: relative;
 }
 
-/* Optimized Background - Static */
 body::before {
     content: '';
     position: fixed;
@@ -31,7 +30,6 @@ body::before {
     z-index: -1;
 }
 
-/* Particle canvas */
 #particles {
     position: fixed;
     top: 0;
@@ -85,20 +83,25 @@ body::before {
 .search-input {
     width: 100%;
     padding: 18px 20px 18px 50px;
-    background: rgba(26, 21, 53, 0.6);
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(157, 78, 221, 0.3);
-    border-radius: 12px;
+    background: rgba(26, 21, 53, 0.4);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 2px solid rgba(157, 78, 221, 0.4);
+    border-radius: 16px;
     color: #e8e8f0;
     font-size: 16px;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .search-input:focus {
     outline: none;
     border-color: #9d4edd;
-    box-shadow: 0 0 30px rgba(157, 78, 221, 0.4);
-    background: rgba(26, 21, 53, 0.8);
+    box-shadow: 0 0 40px rgba(157, 78, 221, 0.5),
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    background: rgba(26, 21, 53, 0.5);
 }
 
 .search-icon {
@@ -110,7 +113,30 @@ body::before {
     font-size: 18px;
 }
 
-.section { margin-bottom: 60px; }
+.section { 
+    margin-bottom: 60px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section:nth-child(2) { animation-delay: 0.1s; }
+.section:nth-child(3) { animation-delay: 0.2s; }
+.section:nth-child(4) { animation-delay: 0.3s; }
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
 
 .section-title { 
     font-size: 28px; 
@@ -120,13 +146,49 @@ body::before {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin-bottom: 30px;
+}
+
+.view-toggle {
+    display: flex;
+    gap: 8px;
+    background: rgba(26, 21, 53, 0.4);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(157, 78, 221, 0.3);
+    border-radius: 12px;
+    padding: 6px;
+}
+
+.view-btn {
+    background: transparent;
+    border: none;
+    color: #b8b8c8;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 16px;
+}
+
+.view-btn:hover {
+    color: #e8e8f0;
+}
+
+.view-btn.active {
+    background: linear-gradient(135deg, #9d4edd, #4cc9f0);
+    color: white;
+    box-shadow: 0 4px 15px rgba(157, 78, 221, 0.4);
 }
 
 .games-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 24px;
+    gap: 12px;
+    transition: all 0.3s ease;
+}
+
+.games-grid.list-view {
+    grid-template-columns: 1fr;
+    gap: 16px;
 }
 
 .game-card {
@@ -142,7 +204,58 @@ body::before {
     transform: perspective(1000px);
     aspect-ratio: 1;
     height: 200px;
+    opacity: 0;
+    animation: fadeInCard 0.4s ease forwards;
 }
+
+.list-view .game-card {
+    aspect-ratio: auto;
+    height: 120px;
+    display: flex;
+    flex-direction: row;
+}
+
+.list-view .game-card .game-image {
+    width: 120px;
+    height: 100%;
+}
+
+.list-view .game-card .game-info {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.list-view .game-card .game-title {
+    opacity: 1;
+    transform: none;
+    text-align: left;
+    font-size: 20px;
+    text-shadow: none;
+    color: #e8e8f0;
+}
+
+.list-view .game-card:hover .game-image {
+    filter: none;
+    transform: none;
+}
+
+@keyframes fadeInCard {
+    to {
+        opacity: 1;
+    }
+}
+
+.game-card:nth-child(1) { animation-delay: 0.05s; }
+.game-card:nth-child(2) { animation-delay: 0.1s; }
+.game-card:nth-child(3) { animation-delay: 0.15s; }
+.game-card:nth-child(4) { animation-delay: 0.2s; }
+.game-card:nth-child(5) { animation-delay: 0.25s; }
+.game-card:nth-child(6) { animation-delay: 0.3s; }
+.game-card:nth-child(7) { animation-delay: 0.35s; }
+.game-card:nth-child(8) { animation-delay: 0.4s; }
 
 .game-card::before {
     content: '';
@@ -370,6 +483,18 @@ hr {
     margin-top: 10px;
     font-weight: 600;
 }
+
+/* Scroll fade-in for dynamically loaded content */
+.fade-in-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 </style>
 </head>
 <body>
@@ -399,8 +524,21 @@ hr {
         <input type="text" class="search-input" id="searchInput" placeholder="Type here to search g4mes...">
     </div>
 
+    <div class="section" id="recentSection" style="display: none;">
+        <div class="section-header">
+            <h2 class="section-title">Recently Played</h2>
+        </div>
+        <div id="recentContainer">
+            <div class="games-grid" id="recentGrid"></div>
+        </div>
+    </div>
+
+    <hr id="recentHr" style="display: none;">
+
     <div class="section">
-        <h2 class="section-title">Favorites</h2>
+        <div class="section-header">
+            <h2 class="section-title">Favorites</h2>
+        </div>
         <div id="favoritesContainer">
             <div class="empty-state">
                 <i class="fas fa-star"></i>
@@ -412,7 +550,17 @@ hr {
     <hr>
 
     <div class="section">
-        <h2 class="section-title">All Games</h2>
+        <div class="section-header">
+            <h2 class="section-title">All Games</h2>
+            <div class="view-toggle">
+                <button class="view-btn active" data-view="grid">
+                    <i class="fas fa-grip"></i>
+                </button>
+                <button class="view-btn" data-view="list">
+                    <i class="fas fa-list"></i>
+                </button>
+            </div>
+        </div>
         <div id="gamesContainer">
             <div class="games-grid" id="gamesGrid">
                 <p style="color: #888;">Loading games...</p>
@@ -495,7 +643,6 @@ function connect() {
             }
         }
         
-        // Connect to mouse
         if (mouse.x !== null && mouse.y !== null) {
             const dx = particles[i].x - mouse.x;
             const dy = particles[i].y - mouse.y;
@@ -524,7 +671,6 @@ function animate() {
     
     connect();
     
-    // Draw mouse particle
     if (mouse.x !== null && mouse.y !== null) {
         ctx.fillStyle = 'rgba(76, 201, 240, 0.8)';
         ctx.beginPath();
@@ -567,16 +713,20 @@ closeBtn.addEventListener('click', () => {
     setTimeout(() => modal.style.display = 'none', 300);
 });
 
-// Game functionality - Using in-memory storage instead of localStorage
+// Game functionality
 let favorites = [];
+let recentlyPlayed = [];
 let allGames = [];
+let currentView = 'grid';
 
-// Try to get favorites from localStorage if available, otherwise use memory
+// Load data from localStorage
 try {
     const stored = localStorage.getItem('favorites');
     if (stored) favorites = JSON.parse(stored);
+    
+    const storedRecent = localStorage.getItem('recentlyPlayed');
+    if (storedRecent) recentlyPlayed = JSON.parse(storedRecent);
 } catch (e) {
-    // localStorage not available, use in-memory storage
     console.log('Using in-memory storage');
 }
 
@@ -587,13 +737,36 @@ async function loadGames() {
         allGames = await response.json();
         renderGames(allGames);
         renderFavorites();
+        renderRecent();
     } catch (error) {
         document.getElementById('gamesGrid').innerHTML =
             '<p style="color: #888;">Error loading games.</p>';
     }
 }
 
-function createGameCard(game) {
+function addToRecent(game) {
+    // Remove if already exists
+    recentlyPlayed = recentlyPlayed.filter(g => g.title !== game.title);
+    
+    // Add to beginning
+    recentlyPlayed.unshift(game);
+    
+    // Keep only last 6
+    if (recentlyPlayed.length > 6) {
+        recentlyPlayed = recentlyPlayed.slice(0, 6);
+    }
+    
+    // Save to localStorage
+    try {
+        localStorage.setItem('recentlyPlayed', JSON.stringify(recentlyPlayed));
+    } catch (e) {
+        console.log('Could not save recent games');
+    }
+    
+    renderRecent();
+}
+
+function createGameCard(game, skipTilt = false) {
     const card = document.createElement('div');
     const isFav = favorites.includes(game.title);
     card.className = 'game-card';
@@ -607,45 +780,52 @@ function createGameCard(game) {
         </div>
     `;
     
-    // 3D tilt effect
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
+    // 3D tilt effect (skip for list view)
+    if (!skipTilt) {
+        card.addEventListener('mousemove', (e) => {
+            if (currentView === 'list') return;
+            
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 5;
+            const rotateY = (centerX - x) / 5;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+            
+            // Update gradient position
+            const mouseX = (x / rect.width) * 100;
+            const mouseY = (y / rect.height) * 100;
+            card.style.setProperty('--mouse-x', `${mouseX}%`);
+            card.style.setProperty('--mouse-y', `${mouseY}%`);
+        });
         
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
-        
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
-        
-        // Update gradient position
-        const mouseX = (x / rect.width) * 100;
-        const mouseY = (y / rect.height) * 100;
-        card.style.setProperty('--mouse-x', `${mouseX}%`);
-        card.style.setProperty('--mouse-y', `${mouseY}%`);
-    });
-    
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-    });
+        card.addEventListener('mouseleave', () => {
+            if (currentView === 'list') return;
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        });
+    }
     
     card.addEventListener('click', (e) => {
         if (!e.target.closest('.favorite-btn')) {
+            addToRecent(game);
             let gameUrl = game.link;
-            // If it's a relative path (like projects/...), prepend the base URL
             if (!gameUrl.startsWith('http://') && !gameUrl.startsWith('https://') && !gameUrl.startsWith('/')) {
                 gameUrl = 'https://ethanytangcodes.github.io/art/' + gameUrl;
             }
             window.location.href = gameUrl;
         }
     });
+    
     card.querySelector('.favorite-btn').addEventListener('click', (e) => {
         e.stopPropagation();
         toggleFavorite(game.title);
     });
+    
     return card;
 }
 
@@ -654,6 +834,7 @@ function renderGames(games) {
     grid.innerHTML = '';
     if (!games.length) return grid.innerHTML = '<p style="color: #888;">No games found.</p>';
     games.forEach(g => grid.appendChild(createGameCard(g)));
+    setupScrollAnimation();
 }
 
 function renderFavorites() {
@@ -669,6 +850,26 @@ function renderFavorites() {
     favGames.forEach(game => container.querySelector('.games-grid').appendChild(createGameCard(game)));
 }
 
+function renderRecent() {
+    const section = document.getElementById('recentSection');
+    const hr = document.getElementById('recentHr');
+    const grid = document.getElementById('recentGrid');
+    
+    if (!recentlyPlayed.length) {
+        section.style.display = 'none';
+        hr.style.display = 'none';
+        return;
+    }
+    
+    section.style.display = 'block';
+    hr.style.display = 'block';
+    grid.innerHTML = '';
+    
+    recentlyPlayed.forEach(game => {
+        grid.appendChild(createGameCard(game));
+    });
+}
+
 function toggleFavorite(title) {
     if (favorites.includes(title)) {
         favorites = favorites.filter(f => f !== title);
@@ -676,15 +877,33 @@ function toggleFavorite(title) {
         favorites.push(title);
     }
     
-    // Try to save to localStorage if available
     try {
         localStorage.setItem('favorites', JSON.stringify(favorites));
     } catch (e) {
-        // localStorage not available, favorites will be lost on refresh
+        console.log('Could not save favorites');
     }
     renderGames(allGames);
     renderFavorites();
+    renderRecent();
 }
+
+// View toggle
+document.querySelectorAll('.view-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const view = btn.dataset.view;
+        currentView = view;
+        
+        document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const grid = document.getElementById('gamesGrid');
+        if (view === 'list') {
+            grid.classList.add('list-view');
+        } else {
+            grid.classList.remove('list-view');
+        }
+    });
+});
 
 let searchTimeout;
 document.getElementById('searchInput').addEventListener('input', (e) => {
@@ -694,6 +913,27 @@ document.getElementById('searchInput').addEventListener('input', (e) => {
         renderGames(q ? allGames.filter(g => g.title.toLowerCase().includes(q)) : allGames);
     }, 300);
 });
+
+// Scroll animation observer
+function setupScrollAnimation() {
+    const cards = document.querySelectorAll('.game-card');
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '50px'
+    });
+    
+    cards.forEach(card => {
+        card.classList.add('fade-in-scroll');
+        observer.observe(card);
+    });
+}
 
 document.addEventListener('DOMContentLoaded', loadGames);
 </script>
