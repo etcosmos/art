@@ -135,36 +135,87 @@ body::before {
     border-radius: 16px;
     overflow: hidden;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
     border: 2px solid rgba(157, 78, 221, 0.3);
     position: relative;
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+    aspect-ratio: 1;
+    height: 200px;
+}
+
+.game-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(157, 78, 221, 0.4),
+        transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.game-card:hover::before {
+    opacity: 1;
 }
 
 .game-card:hover {
-    transform: translateY(-8px);
     box-shadow: 0 15px 40px rgba(157, 78, 221, 0.4), 0 0 40px rgba(76, 201, 240, 0.3);
     border-color: #9d4edd;
 }
 
 .game-image { 
     width: 100%; 
-    height: 200px; 
+    height: 100%; 
     object-fit: cover; 
     background: rgba(10, 14, 39, 0.6);
+    position: relative;
+    z-index: 2;
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.game-card:hover .game-image {
+    filter: blur(4px) brightness(0.7);
+    transform: scale(1.1);
 }
 
 .game-info {
-    position: relative;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3;
+    pointer-events: none;
 }
 
 .game-title { 
-    font-size: 15px; 
-    font-weight: 600; 
-    color: #e8e8f0;
-    padding: 12px;
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis; 
+    font-size: 18px; 
+    font-weight: 700; 
+    color: #fff;
+    padding: 16px 12px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+    transition: all 0.3s ease;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+    max-width: 90%;
+    word-wrap: break-word;
+}
+
+.game-card:hover .game-title {
+    opacity: 1;
+    transform: translateY(0) scale(1);
 }
 
 .favorite-btn {
@@ -183,6 +234,7 @@ body::before {
     cursor: pointer;
     transition: all 0.2s ease;
     z-index: 10;
+    pointer-events: auto;
 }
 
 .favorite-btn:hover {
@@ -554,6 +606,32 @@ function createGameCard(game) {
             <div class="game-title">${game.title}</div>
         </div>
     `;
+    
+    // 3D tilt effect
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 10;
+        
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+        
+        // Update gradient position
+        const mouseX = (x / rect.width) * 100;
+        const mouseY = (y / rect.height) * 100;
+        card.style.setProperty('--mouse-x', `${mouseX}%`);
+        card.style.setProperty('--mouse-y', `${mouseY}%`);
+    });
+    
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    });
+    
     card.addEventListener('click', (e) => {
         if (!e.target.closest('.favorite-btn')) {
             let gameUrl = game.link;
