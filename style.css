@@ -47,29 +47,6 @@ body::before {
     position: relative;
 }
 
-.settings-btn {
-    position: absolute;
-    top: 60px;
-    right: 0;
-    background: rgba(26, 21, 53, 0.6);
-    backdrop-filter: blur(20px);
-    border: 2px solid rgba(157, 78, 221, 0.3);
-    border-radius: 12px;
-    color: #e8e8f0;
-    padding: 12px 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 16px;
-    border: none;
-    outline: none;
-}
-
-.settings-btn:hover {
-    background: rgba(157, 78, 221, 0.3);
-    border-color: #9d4edd;
-    box-shadow: 0 8px 25px rgba(157, 78, 221, 0.4);
-}
-
 .page-title { 
     font-size: 72px; 
     font-weight: 800; 
@@ -232,11 +209,6 @@ body::before {
     transition: all 0.3s ease;
 }
 
-.games-grid.compact {
-    grid-template-columns: repeat(auto-fill, minmax(133px, 1fr));
-    gap: 8px;
-}
-
 .games-grid.list-view {
     grid-template-columns: 1fr;
     gap: 16px;
@@ -257,27 +229,6 @@ body::before {
     height: 200px;
     opacity: 0;
     animation: fadeInCard 0.4s ease forwards;
-}
-
-.games-grid.compact .game-card {
-    height: 133px;
-    border-radius: 12px;
-}
-
-.games-grid.compact .game-card .favorite-btn {
-    width: 30px;
-    height: 30px;
-    top: 8px;
-    right: 8px;
-}
-
-.games-grid.compact .game-card .favorite-btn i {
-    font-size: 14px;
-}
-
-.games-grid.compact .game-card .game-title {
-    font-size: 14px;
-    padding: 12px 8px;
 }
 
 .list-view .game-card {
@@ -558,109 +509,6 @@ hr {
     font-size: 14px;
     margin-top: 10px;
     font-weight: 600;
-}
-
-/* Settings Modal */
-.settings-content {
-    text-align: left;
-}
-
-.setting-item {
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid rgba(157, 78, 221, 0.2);
-}
-
-.setting-item:last-child {
-    border-bottom: none;
-}
-
-.setting-label {
-    font-size: 18px;
-    font-weight: 600;
-    color: #e8e8f0;
-    margin-bottom: 12px;
-    display: block;
-}
-
-.setting-description {
-    font-size: 14px;
-    color: #b8b8c8;
-    margin-bottom: 12px;
-}
-
-.toggle-switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 30px;
-}
-
-.toggle-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(157, 78, 221, 0.3);
-    transition: 0.3s;
-    border-radius: 30px;
-    border: 2px solid rgba(157, 78, 221, 0.5);
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: 0.3s;
-    border-radius: 50%;
-}
-
-input:checked + .slider {
-    background: linear-gradient(135deg, #9d4edd, #4cc9f0);
-    border-color: #9d4edd;
-}
-
-input:checked + .slider:before {
-    transform: translateX(30px);
-}
-
-.danger-btn {
-    background: linear-gradient(135deg, #ff4757, #ff6b81);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.danger-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(255, 71, 87, 0.4);
-}
-
-.setting-buttons {
-    display: flex;
-    gap: 12px;
-    margin-top: 12px;
-}
-
-.setting-buttons button {
-    flex: 1;
 }
 
 /* Scroll fade-in */
