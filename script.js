@@ -141,48 +141,11 @@ closeBtn.addEventListener('click', () => {
     setTimeout(() => modal.classList.remove('show'), 300);
 });
 
-// Settings Modal
-const settingsModal = document.getElementById('settingsModal');
-const openSettingsBtn = document.getElementById('openSettingsBtn');
-const settingsCloseBtn = document.getElementById('settingsCloseBtn');
-const compactToggle = document.getElementById('compactToggle');
-const clearFavoritesBtn = document.getElementById('clearFavoritesBtn');
-const settingsGridBtn = document.getElementById('settingsGridBtn');
-const settingsListBtn = document.getElementById('settingsListBtn');
-
-openSettingsBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    // Sync settings modal with current state
-    compactToggle.checked = compactMode;
-    
-    if (currentView === 'grid') {
-        settingsGridBtn.classList.add('active');
-        settingsListBtn.classList.remove('active');
-    } else {
-        settingsListBtn.classList.add('active');
-        settingsGridBtn.classList.remove('active');
-    }
-    
-    settingsModal.classList.add('show');
-    console.log('Settings modal opened');
-});
-
-settingsCloseBtn.addEventListener('click', () => {
-    settingsModal.style.animation = 'fadeOut 0.3s ease forwards';
-    setTimeout(() => {
-        settingsModal.classList.remove('show');
-        settingsModal.style.animation = '';
-    }, 300);
-});
-
 // Game functionality
 let favorites = [];
 let recentlyPlayed = [];
 let allGames = [];
 let currentView = 'grid';
-let compactMode = false;
 
 // Load settings from localStorage
 try {
@@ -194,18 +157,8 @@ try {
     
     const storedView = localStorage.getItem('viewMode');
     if (storedView) currentView = storedView;
-    
-    const storedCompact = localStorage.getItem('compactMode');
-    if (storedCompact) compactMode = storedCompact === 'true';
 } catch (e) {
     console.log('Using default settings');
-}
-
-// Apply saved settings on load
-compactToggle.checked = compactMode;
-if (currentView === 'list') {
-    settingsGridBtn.classList.remove('active');
-    settingsListBtn.classList.add('active');
 }
 
 async function loadGames() {
@@ -224,31 +177,11 @@ async function loadGames() {
 }
 
 function applyViewSettings() {
-    const grids = document.querySelectorAll('.games-grid');
-    
-    // Apply compact mode
-    grids.forEach(grid => {
-        if (compactMode) {
-            grid.classList.add('compact');
-        } else {
-            grid.classList.remove('compact');
-        }
-    });
-    
-    // Apply view mode
     const mainGrid = document.getElementById('gamesGrid');
     if (currentView === 'list') {
         mainGrid.classList.add('list-view');
         document.getElementById('gridViewBtn').classList.remove('active');
         document.getElementById('listViewBtn').classList.add('active');
-        // Force grid mode when in compact
-        if (compactMode) {
-            mainGrid.classList.remove('list-view');
-            currentView = 'grid';
-            try {
-                localStorage.setItem('viewMode', 'grid');
-            } catch (e) {}
-        }
     } else {
         mainGrid.classList.remove('list-view');
         document.getElementById('gridViewBtn').classList.add('active');
@@ -353,7 +286,6 @@ function renderFavorites() {
     container.innerHTML = '<div class="games-grid"></div>';
     const grid = container.querySelector('.games-grid');
     favGames.forEach(game => grid.appendChild(createGameCard(game)));
-    if (compactMode) grid.classList.add('compact');
 }
 
 function renderRecent() {
@@ -374,7 +306,6 @@ function renderRecent() {
     recentlyPlayed.forEach(game => {
         grid.appendChild(createGameCard(game));
     });
-    if (compactMode) grid.classList.add('compact');
 }
 
 function toggleFavorite(title) {
@@ -398,12 +329,6 @@ function toggleFavorite(title) {
 document.querySelectorAll('.view-btn[data-view]').forEach(btn => {
     btn.addEventListener('click', () => {
         const view = btn.dataset.view;
-        
-        // Force grid mode when in compact
-        if (compactMode && view === 'list') {
-            return;
-        }
-        
         currentView = view;
         
         try {
@@ -420,82 +345,6 @@ document.querySelectorAll('.view-btn[data-view]').forEach(btn => {
             grid.classList.remove('list-view');
         }
     });
-});
-
-// Settings controls
-compactToggle.addEventListener('change', (e) => {
-    compactMode = e.target.checked;
-    
-    // If enabling compact mode and currently in list view, force grid view
-    if (compactMode && currentView === 'list') {
-        currentView = 'grid';
-        settingsGridBtn.classList.add('active');
-        settingsListBtn.classList.remove('active');
-        document.getElementById('gridViewBtn').classList.add('active');
-        document.getElementById('listViewBtn').classList.remove('active');
-        try {
-            localStorage.setItem('viewMode', 'grid');
-        } catch (e) {}
-    }
-    
-    try {
-        localStorage.setItem('compactMode', compactMode);
-    } catch (e) {}
-    
-    applyViewSettings();
-    renderFavorites();
-    renderRecent();
-});
-
-settingsGridBtn.addEventListener('click', () => {
-    currentView = 'grid';
-    settingsGridBtn.classList.add('active');
-    settingsListBtn.classList.remove('active');
-    
-    // Update main view buttons
-    document.getElementById('gridViewBtn').classList.add('active');
-    document.getElementById('listViewBtn').classList.remove('active');
-    
-    try {
-        localStorage.setItem('viewMode', 'grid');
-    } catch (e) {}
-    
-    const mainGrid = document.getElementById('gamesGrid');
-    mainGrid.classList.remove('list-view');
-});
-
-settingsListBtn.addEventListener('click', () => {
-    if (compactMode) {
-        alert('List view is not available in compact mode. Please disable compact mode first.');
-        return;
-    }
-    
-    currentView = 'list';
-    settingsListBtn.classList.add('active');
-    settingsGridBtn.classList.remove('active');
-    
-    // Update main view buttons
-    document.getElementById('listViewBtn').classList.add('active');
-    document.getElementById('gridViewBtn').classList.remove('active');
-    
-    try {
-        localStorage.setItem('viewMode', 'list');
-    } catch (e) {}
-    
-    const mainGrid = document.getElementById('gamesGrid');
-    mainGrid.classList.add('list-view');
-});
-
-clearFavoritesBtn.addEventListener('click', () => {
-    if (confirm('Are you sure you want to clear all favorites? This cannot be undone.')) {
-        favorites = [];
-        try {
-            localStorage.setItem('favorites', JSON.stringify(favorites));
-        } catch (e) {}
-        renderGames(allGames);
-        renderFavorites();
-        renderRecent();
-    }
 });
 
 // I'm Feeling Lucky button
