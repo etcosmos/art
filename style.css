@@ -60,6 +60,8 @@ body::before {
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: 16px;
+    border: none;
+    outline: none;
 }
 
 .settings-btn:hover {
