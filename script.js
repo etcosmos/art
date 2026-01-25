@@ -150,8 +150,23 @@ const clearFavoritesBtn = document.getElementById('clearFavoritesBtn');
 const settingsGridBtn = document.getElementById('settingsGridBtn');
 const settingsListBtn = document.getElementById('settingsListBtn');
 
-openSettingsBtn.addEventListener('click', () => {
+openSettingsBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Sync settings modal with current state
+    compactToggle.checked = compactMode;
+    
+    if (currentView === 'grid') {
+        settingsGridBtn.classList.add('active');
+        settingsListBtn.classList.remove('active');
+    } else {
+        settingsListBtn.classList.add('active');
+        settingsGridBtn.classList.remove('active');
+    }
+    
     settingsModal.classList.add('show');
+    console.log('Settings modal opened');
 });
 
 settingsCloseBtn.addEventListener('click', () => {
@@ -411,6 +426,18 @@ document.querySelectorAll('.view-btn[data-view]').forEach(btn => {
 compactToggle.addEventListener('change', (e) => {
     compactMode = e.target.checked;
     
+    // If enabling compact mode and currently in list view, force grid view
+    if (compactMode && currentView === 'list') {
+        currentView = 'grid';
+        settingsGridBtn.classList.add('active');
+        settingsListBtn.classList.remove('active');
+        document.getElementById('gridViewBtn').classList.add('active');
+        document.getElementById('listViewBtn').classList.remove('active');
+        try {
+            localStorage.setItem('viewMode', 'grid');
+        } catch (e) {}
+    }
+    
     try {
         localStorage.setItem('compactMode', compactMode);
     } catch (e) {}
@@ -425,25 +452,38 @@ settingsGridBtn.addEventListener('click', () => {
     settingsGridBtn.classList.add('active');
     settingsListBtn.classList.remove('active');
     
+    // Update main view buttons
+    document.getElementById('gridViewBtn').classList.add('active');
+    document.getElementById('listViewBtn').classList.remove('active');
+    
     try {
         localStorage.setItem('viewMode', 'grid');
     } catch (e) {}
     
-    applyViewSettings();
+    const mainGrid = document.getElementById('gamesGrid');
+    mainGrid.classList.remove('list-view');
 });
 
 settingsListBtn.addEventListener('click', () => {
-    if (compactMode) return; // Can't use list view in compact mode
+    if (compactMode) {
+        alert('List view is not available in compact mode. Please disable compact mode first.');
+        return;
+    }
     
     currentView = 'list';
     settingsListBtn.classList.add('active');
     settingsGridBtn.classList.remove('active');
     
+    // Update main view buttons
+    document.getElementById('listViewBtn').classList.add('active');
+    document.getElementById('gridViewBtn').classList.remove('active');
+    
     try {
         localStorage.setItem('viewMode', 'list');
     } catch (e) {}
     
-    applyViewSettings();
+    const mainGrid = document.getElementById('gamesGrid');
+    mainGrid.classList.add('list-view');
 });
 
 clearFavoritesBtn.addEventListener('click', () => {
