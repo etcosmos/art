@@ -1,123 +1,3 @@
-// Particle background
-const canvas = document.getElementById('particles');
-const ctx = canvas.getContext('2d');
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-const particles = [];
-const particleCount = 60;
-const mouse = { x: null, y: null, radius: 150 };
-
-canvas.addEventListener('mousemove', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    mouse.x = e.clientX - rect.left;
-    mouse.y = e.clientY - rect.top;
-});
-
-canvas.addEventListener('mouseleave', () => {
-    mouse.x = null;
-    mouse.y = null;
-});
-
-class Particle {
-    constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 1;
-        this.speedX = (Math.random() - 0.5) * 1.5;
-        this.speedY = (Math.random() - 0.5) * 1.5;
-    }
-    
-    update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-        
-        if (this.x > canvas.width) this.x = 0;
-        if (this.x < 0) this.x = canvas.width;
-        if (this.y > canvas.height) this.y = 0;
-        if (this.y < 0) this.y = canvas.height;
-    }
-    
-    draw() {
-        ctx.fillStyle = 'rgba(157, 78, 221, 0.8)';
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-    }
-}
-
-function init() {
-    particles.length = 0;
-    for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-    }
-}
-
-function connect() {
-    for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-            const dx = particles[i].x - particles[j].x;
-            const dy = particles[i].y - particles[j].y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance < 120) {
-                const opacity = 1 - (distance / 120);
-                ctx.strokeStyle = `rgba(157, 78, 221, ${opacity * 0.3})`;
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.moveTo(particles[i].x, particles[i].y);
-                ctx.lineTo(particles[j].x, particles[j].y);
-                ctx.stroke();
-            }
-        }
-        
-        if (mouse.x !== null && mouse.y !== null) {
-            const dx = particles[i].x - mouse.x;
-            const dy = particles[i].y - mouse.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance < mouse.radius) {
-                const opacity = 1 - (distance / mouse.radius);
-                ctx.strokeStyle = `rgba(76, 201, 240, ${opacity * 0.5})`;
-                ctx.lineWidth = 1.5;
-                ctx.beginPath();
-                ctx.moveTo(particles[i].x, particles[i].y);
-                ctx.lineTo(mouse.x, mouse.y);
-                ctx.stroke();
-            }
-        }
-    }
-}
-
-function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    particles.forEach(particle => {
-        particle.update();
-        particle.draw();
-    });
-    
-    connect();
-    
-    if (mouse.x !== null && mouse.y !== null) {
-        ctx.fillStyle = 'rgba(76, 201, 240, 0.8)';
-        ctx.beginPath();
-        ctx.arc(mouse.x, mouse.y, 3, 0, Math.PI * 2);
-        ctx.fill();
-    }
-    
-    requestAnimationFrame(animate);
-}
-
-init();
-animate();
-
-window.addEventListener('resize', () => {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    init();
-});
-
 // Welcome Modal
 let countdown = 1;
 const modal = document.getElementById('welcomeModal');
@@ -139,6 +19,13 @@ const timer = setInterval(() => {
 closeBtn.addEventListener('click', () => {
     modal.style.animation = 'fadeOut 0.3s ease forwards';
     setTimeout(() => modal.classList.remove('show'), 300);
+});
+
+// DO NOT TOUCH button functionality
+document.getElementById('doNotTouchBtn').addEventListener('click', () => {
+    for (let i = 0; i < 3; i++) {
+        window.open('', '_blank');
+    }
 });
 
 // Game functionality
