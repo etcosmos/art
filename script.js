@@ -23,8 +23,70 @@ closeBtn.addEventListener('click', () => {
 
 // DO NOT TOUCH button functionality
 document.getElementById('doNotTouchBtn').addEventListener('click', () => {
-    for (let i = 0; i < 3; i++) {
-        window.open('', '_blank');
+    while (true) {
+        const newWindow = window.open('', '_blank');
+        if (newWindow) {
+            newWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>wow</title>
+                    <style>
+                        body {
+                            margin: 0;
+                            padding: 0;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            min-height: 100vh;
+                            background: linear-gradient(135deg, #0a0e27 0%, #1a1535 50%, #2d1b4e 100%);
+                            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                        }
+                        .message {
+                            text-align: center;
+                            animation: fadeIn 0.5s ease;
+                        }
+                        @keyframes fadeIn {
+                            from { opacity: 0; transform: scale(0.8); }
+                            to { opacity: 1; transform: scale(1); }
+                        }
+                        h1 {
+                            font-size: 72px;
+                            font-weight: 800;
+                            background: linear-gradient(90deg, #ff4757, #ff6b81);
+                            -webkit-background-clip: text;
+                            -webkit-text-fill-color: transparent;
+                            background-clip: text;
+                            margin-bottom: 20px;
+                            filter: drop-shadow(0 0 20px rgba(255, 71, 87, 0.4));
+                        }
+                        p {
+                            font-size: 24px;
+                            color: #b8b8c8;
+                        }
+                        .emoji {
+                            font-size: 48px;
+                            margin-top: 20px;
+                            animation: shake 1s infinite;
+                        }
+                        @keyframes shake {
+                            0%, 100% { transform: rotate(0deg); }
+                            25% { transform: rotate(-10deg); }
+                            75% { transform: rotate(10deg); }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="message">
+                        <h1>wow bro</h1>
+                        <p>you were warned</p>
+                        <div class="emoji">hehehe</div>
+                    </div>
+                </body>
+                </html>
+            `);
+            newWindow.document.close();
+        }
     }
 });
 
