@@ -1,0 +1,313 @@
+{
+  "start": "main_menu",
+  "end": "",
+  "default": {
+    "name": "default",
+    "type": "no-type",
+    "showInput": true,
+    "data": {
+      "title": "Default Page",
+      "action": {
+        "type": "goToStart"
+      },
+      "content": {
+        "textIndent": 0,
+        "font": {
+          "name": "CodeGon Mono",
+          "file": "fonts/codegon-mono.ttf",
+          "size": 7
+        }
+      }
+    }
+  },
+  "pages": [
+    {
+      "name": "main_menu",
+      "type": "choice",
+      "showInput": true,
+      "data": {
+        "title": "The Oregon Trail",
+        "choices": [
+          {
+            "text": {
+              "en": "Travel the trail",
+              "de": "Befahre die Spur"
+            },
+            "action": {
+              "type": "changePage",
+              "newPageName": "occupation"
+            }
+          },
+          {
+            "text": {
+              "en": "Learn about the trail",
+              "de": "Mehr uber die Spur"
+            },
+            "action": {
+              "type": "changePage",
+              "newPageName": "about_game"
+            }
+          },
+          {
+            "text": {
+              "en": "See the Oregon Top Ten",
+              "de": "sehe Oregon Top Ten an"
+            },
+            "action": {
+              "type": "changePage",
+              "newPageName": ""
+            }
+          },
+          {
+            "text": {
+              "en": "Turn sound off",
+              "de": "Ton ausschalten"
+            },
+            "action": {
+              "type": "toggleSetting",
+              "setting": "sound",
+              "secondAction": {
+                "type": "changeText",
+                "texts": [
+                  {
+                    "en": "Turn sound off",
+                    "de": "Ton ausschalten"
+                  },
+                  {
+                    "en": "Turn sound on",
+                    "de": "Ton anschalten"
+                  }
+                ],
+                "current": 0
+              }
+            }
+          },
+          {
+            "text": {
+              "en": "Open the test page",
+              "de": "Testseite aufmachen"
+            },
+            "action": {
+              "type": "changePage",
+              "newPageName": "test"
+            }
+          },
+          {
+            "text": {
+              "en": "Change Language",
+              "de": "Sprache aendern"
+            },
+            "action": {
+              "type": "changePage",
+              "newPageName": "language"
+            }
+          }
+        ],
+        "prompt": {
+          "en": "What is your choice?",
+          "de": "Was ist deine Wahl?"
+        },
+        "img": "img/title.png",
+        "content": {
+          "textIndent": 5
+        }
+      }
+    },
+    {
+      "name": "occupation",
+      "type": "choice",
+      "showInput": true,
+      "data": {
+        "title": {
+          "en": ["Many kinds of people made the", "trip to Oregon."],
+          "de": ["Viele Arten von Menschen haben das gemacht", "Reise nach Oregon."]
+        },
+        "choices": [
+          {
+            "text": {
+              "en": "Be a banker from Boston",
+              "de": "Sei ein Banker aus Boston"
+            },
+            "action": {
+              "type": "changePage",
+              "newPageName": ""
+            }
+          },
+          {
+            "text": {
+              "en": "Be a carpenter from Ohio",
+              "de": "Seien Sie ein Zimmermann aus Ohio"
+            },
+            "action": {
+              "type": "changePage",
+              "newPageName": ""
+            }
+          },
+          {
+            "text": {
+              "en": "Be a farmer from Illinois",
+              "de": "Sei ein Bauer aus Illinois"
+            },
+            "action": {
+              "type": "changePage",
+              "newPageName": ""
+            }
+          },
+          {
+            "text": {
+              "en": ["Find out the differences", "between theese choices"],
+              "de": ["Finden Sie die Unterschiede heraus", "zwischen diesen Entscheidungen"]
+            },
+            "action": {
+              "type": "changePage",
+              "newPageName": ""
+            }
+          },
+          {
+            "text": {
+              "en": "Return back",
+              "de": "Kehren Sie zurück"
+            },
+            "action": {
+              "type": "changePage",
+              "newPageName": "main_menu"
+            }
+          }
+        ],
+        "prompt": {
+          "en": "What is your choice?",
+          "de": "Was ist deine Wahl?"
+        },
+        "img": "",
+        "content": {
+          "textIndent": 2
+        }
+      }
+    },
+    {
+      "name": "about_game",
+      "type": "info",
+      "showInput": false,
+      "data": {
+        "title": "The Oregon Trail",
+        "prompt": "Press SPACE BAR to continue",
+        "text": {
+          "en": [
+            "Try taking a journey by covered wagon across 2000 miles of plains, rivers, and mountains.  Try! On the plains, will you slosh your oxen through mud and water-filled ruts or will you plod through dust six inches deep?"
+          ],
+          "de": [
+            "Versuchen Sie, eine Reise  mit einem Planwagen über 2000 Meilen von Ebenen, Flüssen und Bergen zu unternehmen. Versuchen! Werden Sie Ihre Ochsen in der Ebene durch schlammige und wassergefüllte Furchen schwappen oder durch sechs Zoll tiefen Staub stapfen?"
+          ]
+        },
+        "action": {
+          "type": "changePage",
+          "newPageName": "main_menu"
+        },
+        "img": "img/title.png",
+        "content": {
+          "textIndent": 2
+        }
+      }
+    },
+    {
+      "name": "test"
+    },
+    {
+      "name": "language",
+      "type": "choice",
+      "showInput": true,
+      "data": {
+        "title": {
+          "en": "Choose your display language",
+          "de": "Wählen Sie Ihre Anzeigesprache"
+        },
+        "choices": [
+          {
+            "text": {
+              "en": "English",
+              "de": "Englisch"
+            },
+            "action": {
+              "type": "changeLanguage",
+              "language": "en",
+              "secondAction": {
+                "type": "changePage",
+                "newPageName": "main_menu"
+              }
+            }
+          },
+          {
+            "text": {
+              "en": "Deutsch",
+              "de": "Deutsch"
+            },
+            "action": {
+              "type": "changeLanguage",
+              "language": "de",
+              "secondAction": {
+                "type": "changePage",
+                "newPageName": "main_menu"
+              }
+            }
+          },
+          {
+            "text": {
+              "en": "Italiano",
+              "de": "Italienisch"
+            },
+            "action": {
+              "type": "changeLanguage",
+              "language": "it",
+              "secondAction": {
+                "type": "changePage",
+                "newPageName": "main_menu"
+              }
+            }
+          },
+          {
+            "text": {
+              "en": "Czech",
+              "de": "Tschechisch"
+            },
+            "action": {
+              "type": "changeLanguage",
+              "language": "cz",
+              "secondAction": {
+                "type": "changePage",
+                "newPageName": "main_menu"
+              }
+            }
+          },
+          {
+            "text": {
+              "en": "Add new language",
+              "de": "Neue Sprache hinzufuegen"
+            },
+            "action": {
+              "type": "changePage",
+              "newPageName": "test"
+            }
+          },
+          {
+            "text": {
+              "en": "Cancel",
+              "de": "beenden"
+            },
+            "action": {
+              "type": "changePage",
+              "newPageName": "main_menu"
+            }
+          }
+        ],
+        "prompt": {
+          "en": "What is your choice?",
+          "de": "Was ist deine Wahl?"
+        },
+        "img": "",
+        "content": {
+          "textIndent": 2
+        }
+      }
+    }
+  ]
+}
