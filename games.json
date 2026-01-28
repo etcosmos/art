@@ -1120,7 +1120,12 @@
     "image": "projects/om-bounce/assets/icon.jpeg"
   },
   {
-    "title": "Oregon",
+    "title": "Oregon trail p5.js",
+    "link": "projects/oregontrail/index.html",
+    "image": "projects/oregontrail/splash.png"
+  },
+  {
+    "title": "Oregon trail Ruffle",
     "link": "projects/oregon/index.html",
     "image": "projects/oregon/cover.svg"
   },
