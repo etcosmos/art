@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="robots" content="noindex, nofollow">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500&display=swap" rel="stylesheet">
+  <title>Escape Road 2</title>
+  <meta name="description" content="Escape Road 2 playable build for browsers on StaticQuasar931 GitHub Pages">
+  <link rel="stylesheet" href="25050801/theme/game.css">
+
+  <style>
+    .jss1:before{
+      top:0; width:100%; height:100%;
+      content:""; display:block; position:absolute; z-index:0;
+      filter:blur(16px); opacity:.5; background-size:cover;
+      background-image:url("25050801/loading.png");
+    }
+    .error-banner{
+      display:none; position:fixed; left:0; right:0; bottom:0;
+      padding:12px 16px; background:#2b2b2b; color:#fff;
+      font:14px/1.4 Arial,Helvetica,sans-serif; z-index:9999;
+    }
+    .error-banner.show{display:block}
+    .error-banner code{background:#000; padding:2px 4px; border-radius:4px}
+  </style>
+
+  <script>
+    // Robust base detection that works on GitHub Pages and Google Sites
+    function detectRepoBase(repoName){
+      const parts = location.pathname.split("/").filter(Boolean);
+      const i = parts.indexOf(repoName);
+      if(i >= 0) return "/" + parts.slice(0, i + 1).join("/");
+      // if not a project page, keep relative paths
+      return "";
+    }
+    const REPO = "escape-road-2";
+    const BASE = detectRepoBase(REPO); // "/escape-road-2" on GH Pages project site, "" elsewhere
+
+    // Avoid adding a leading slash when BASE is empty
+    function prefix(p){
+      return BASE ? (BASE + "/" + p) : p;
+    }
+
+    // Versioned build folder
+    const VERSION = "25050801";
+    const VERSION_DIR = VERSION + "/";
+    const BUILD_DIR = VERSION_DIR + "Build";
+
+    // Most common Unity filename patterns to probe
+    const CANDIDATES = [
+      // versioned name (your original)
+      "escape-road-2-v" + VERSION,
+      // no version
+      "escape-road-2",
+      // underscores
+      "escape_road_2",
+      // generic WebGL
+      "WebGL",
+      // product name with capitals removed
+      "EscapeRoad2"
+    ];
+
+    async function headOk(url){
+      try{
+        const r = await fetch(url, {method:"HEAD", cache:"no-store"});
+        return r.ok;
+      }catch{ return false; }
+    }
+
+    // Try each candidate until one exists
+    async function resolveBuild(){
+      for(const baseName of CANDIDATES){
+        const loader = prefix(`${BUILD_DIR}/${baseName}.loader.js`);
+        if(await headOk(loader)){
+          return {
+            loader,
+            data:      prefix(`${BUILD_DIR}/${baseName}.data.unityweb`),
+            framework: prefix(`${BUILD_DIR}/${baseName}.framework.js.unityweb`),
+            code:      prefix(`${BUILD_DIR}/${baseName}.wasm.unityweb`)
+          };
+        }
+      }
+      return null;
+    }
+
+    // Optional vendor SDK only if present to avoid 404 noise
+    async function maybeLoadGMSDK(){
+      const sdk = prefix("lib/gmsoftsdk_v5.js");
+      if(await headOk(sdk)){
+        const s = document.createElement("script");
+        s.id = "gmsoft-jssdk";
+        s.src = sdk;
+        document.head.appendChild(s);
+      }
+    }
+
+    function isHostOnGoogleSites(){
+      const h = location.hostname;
+      return h.endsWith(".google.com") || h.endsWith(".googleusercontent.com") || h === "sites.google.com";
+    }
+
+    // Config used for analytics toggles and streaming assets
+    window.__ER2_CONFIG__ = {
+      version: VERSION,
+      companyName: "azgames.io",
+      productName: "Escape Road 2",
+      productVersion: VERSION,
+      pubId: "",
+      gameId: "escape-road-2",
+      eventLog: false,
+      buildAPI: prefix("lib/event"),
+      enableMoreGame: "yes",
+      enablePromotion: true,
+      gdHost: isHostOnGoogleSites(),
+      sdkType: null,
+      gdGameId: null,
+      streamingAssetsUrl: VERSION_DIR + "StreamingAssets"
+    };
+
+    if(window.__ER2_CONFIG__.gdHost){
+      const c = window.__ER2_CONFIG__;
+      c.enableMoreGame = "no";
+      c.enablePromotion = false;
+      c.eventLog = false;
+      c.sdkType = "gd";
+      c.gdGameId = "USE_GD_GAME_ID_CODE";
+    }
+  </script>
+</head>
+
+<body>
+  <div id="unity-container" style="display:none;">
+    <canvas id="unity-canvas"></canvas>
+  </div>
+
+  <div id="loadingBlock">
+    <div class="jss31 jss34 jss1">
+      <div style="position:absolute;font-family:Arial,Helvetica,sans-serif;bottom:10px;right:10px;font-size:18px;color:#ffffff;opacity:.5;">25050801</div>
+      <div class="spinner"></div>
+      <div class="jss31 jss34 jss48" style="flex:1 1 0%;">
+        <div class="jss32">
+          <div class="jss7 jss9 jss20 jss3">
+            <div class="jss125">
+              <div class="jss123">
+                <img src="25050801/logo.png" alt="Escape Road 2 logo">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--PRODUCT_VERSION:25050801END-->
+      <div class="jss31 jss34" style="flex:3 1 0%;">
+        <div class="jss32">
+          <div class="jss31 jss34 jss39 jss50 gameloader">
+            <div class="jss32">
+              <div class="gameloader-game-name">Escape Road 2</div>
+            </div>
+            <div class="jss32">
+              <div class="jss32 gameloader-logo">
+                <img id="game-logo" src="25050801/loading.png" alt="Loading">
+              </div>
+            </div>
+            <div class="jss32">
+              <div>
+                <div class="gameloader-progressbar">
+                  <div class="gameloader-progressbar-progress" id="progress_fill" style="width:0%;"></div>
+                </div>
+                <div class="gameloader-progress-info">Game Loading...</div>
+                <img src="https://thegportal.net/GHub Logo 4.svg" style="height:100px;position:absolute;bottom:20px;left:20px;" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="errorBanner" class="error-banner"></div>
+
+  <script>
+    // Leave warning requested
+    window.onbeforeunload = function(e){
+      e.preventDefault();
+      e.returnValue = "";
+      return "";
+    };
+
+    const progressEl = document.getElementById("progress_fill");
+    const container = document.getElementById("unity-container");
+    const canvas = document.getElementById("unity-canvas");
+    const loadingBar = document.getElementById("loadingBlock");
+    const progressText = document.querySelector(".gameloader-progress-info");
+    const errorBanner = document.getElementById("errorBanner");
+
+    function showError(msg){
+      errorBanner.innerHTML = `Load problem: <code>${msg}</code>`;
+      errorBanner.classList.add("show");
+      console.error(msg);
+    }
+
+    // Try vendor SDK if available
+    maybeLoadGMSDK();
+
+    // Boot Unity
+    (async function boot(){
+      const files = await resolveBuild();
+      if(!files){
+        // Show where we looked, without a stray slash before folder name
+        const lookedIn = (BASE || ".") + "/" + "25050801/Build";
+        showError("Could not locate Unity build files in " + lookedIn);
+        return;
+      }
+
+      const cfg = window.__ER2_CONFIG__;
+      const unityConfig = {
+        dataUrl: files.data,
+        frameworkUrl: files.framework,
+        codeUrl: files.code,
+        streamingAssetsUrl: cfg.streamingAssetsUrl,
+        companyName: cfg.companyName,
+        productName: cfg.productName,
+        productVersion: cfg.productVersion
+      };
+
+      const s = document.createElement("script");
+      s.src = files.loader;
+      s.onload = () => {
+        if(typeof createUnityInstance !== "function"){
+          showError("Unity loader loaded but createUnityInstance is not available");
+          return;
+        }
+        createUnityInstance(canvas, unityConfig, (progress) => {
+          const pct = Math.round(progress * 100);
+          progressEl.style.width = pct + "%";
+          progressText.textContent = pct < 99 ? ("Downloading file: " + pct + "%") : "Game Loading ...";
+        }).then((unityInstance) => {
+          window.unityInstance = unityInstance;
+          setTimeout(() => {
+            loadingBar.style.display = "none";
+            window.focus();
+          }, 1200);
+          container.style.display = "block";
+        }).catch((message) => {
+          showError(message);
+        });
+      };
+      s.onerror = () => showError("Failed to load Unity loader: " + files.loader);
+      document.body.appendChild(s);
+    })();
+  </script>
+
+  <!-- Firebase (compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-analytics-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDDb7OnEwOH2yFyzxqMGaxnMb7D6z0zAoE",
+      authDomain: "escape-road-2.firebaseapp.com",
+      projectId: "escape-road-2",
+      storageBucket: "escape-road-2.firebasestorage.app",
+      messagingSenderId: "106330943494",
+      appId: "1:106330943494:web:1a4c40bdd625509f761387",
+      measurementId: "G-WCKVNNMBMJ"
+    };
+    if(firebaseConfig){
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function(){ window.dataLayer.push(arguments); };
+      window.gtag("config", firebaseConfig.measurementId, {
+        cookie_domain: window.location.hostname,
+        cookie_flags: "SameSite=None;Secure"
+      });
+      firebase.initializeApp(firebaseConfig);
+      try{ firebase.analytics(); }catch(e){}
+    }
+
+    function firebaseSetUserProperties(props){ try{ firebase.analytics().setUserProperties(props); }catch(e){} }
+    function firebaseLogEvent(event_name){ try{ firebase.analytics().logEvent(event_name); }catch(e){} }
+    function firebaseLogEventParameter(event_name, event_param){ try{ firebase.analytics().logEvent(event_name, event_param); }catch(e){} }
+  </script>
+</body>
+</html>
