@@ -1740,6 +1740,11 @@
     "image": "projects/townscaper/icon.png"
   },
   {
+    "title": "Trimps",
+    "link": "projects/trimps/index.html",
+    "image": "projects/trimps/splash.png"
+  },
+  {
     "title": "TRON",
     "link": "projects/tron/index.html",
     "image": "projects/tron/icon.png"
