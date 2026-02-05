@@ -21,16 +21,16 @@ closeBtn.addEventListener('click', () => {
     setTimeout(() => modal.classList.remove('show'), 300);
 });
 
-// DO NOT TOUCH button functionality
-document.getElementById('doNotTouchBtn').addEventListener('click', () => {
-    while (true) {
-        const newWindow = window.open('', '_blank');
-        if (newWindow) {
-            newWindow.document.write(`
+// Check if user is blocked
+function checkBlocked() {
+    try {
+        const isDestroyed = localStorage.getItem('destroy');
+        if (isDestroyed === 'true') {
+            document.body.innerHTML = `
                 <!DOCTYPE html>
                 <html>
                 <head>
-                    <title>wow</title>
+                    <title>Access Denied</title>
                     <style>
                         body {
                             margin: 0;
@@ -63,9 +63,10 @@ document.getElementById('doNotTouchBtn').addEventListener('click', () => {
                         p {
                             font-size: 24px;
                             color: #b8b8c8;
+                            margin: 10px 0;
                         }
                         .emoji {
-                            font-size: 48px;
+                            font-size: 64px;
                             margin-top: 20px;
                             animation: shake 1s infinite;
                         }
@@ -74,19 +75,67 @@ document.getElementById('doNotTouchBtn').addEventListener('click', () => {
                             25% { transform: rotate(-10deg); }
                             75% { transform: rotate(10deg); }
                         }
+                        .small {
+                            font-size: 16px;
+                            color: #888;
+                            margin-top: 30px;
+                        }
                     </style>
                 </head>
                 <body>
                     <div class="message">
-                        <h1>wow bro</h1>
-                        <p>you were warned</p>
-                        <div class="emoji">hehehe</div>
+                        <h1>SECRET PAGE!!!</h1>
+                        <p>you have accessed the secret page!!!</p>
+                        <p>scroll down to unlock</p>
+                        <br><br>
+                        <p>i meant to say...</p>
+                        <p>whyd you press the button</p>
+                        <p>lets admire your stupidity</p>
+                        <p class="small">serves you right</p>
                     </div>
                 </body>
                 </html>
-            `);
-            newWindow.document.close();
+            `;
+            throw new Error('User is blocked');
         }
+    } catch (e) {
+        console.log('Checking block status');
+    }
+}
+
+// Run block check immediately
+checkBlocked();
+
+// DO NOT TOUCH button functionality
+document.getElementById('doNotTouchBtn').addEventListener('click', async () => {
+    try {
+        // Set the destroy flag
+        localStorage.setItem('destroy', 'true');
+        
+        // Log to Discord webhook via Cloudflare Worker
+        // Replace with your actual worker URL
+        const webhookUrl = 'https://prank.ethantytang11.workers.dev/';
+        
+        try {
+            await fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent,
+                    url: window.location.href
+                })
+            });
+        } catch (error) {
+            console.log('Could not log to webhook');
+        }
+        
+        // Show the blocked page
+        checkBlocked();
+    } catch (e) {
+        console.log('Could not set destroy flag');
     }
 });
 
@@ -168,7 +217,7 @@ function createGameCard(game) {
         </div>
     `;
     
-    // 3D tilt effect
+    // Enhanced 3D tilt effect - WAY MORE INTENSE
     card.addEventListener('mousemove', (e) => {
         if (currentView === 'list') return;
         
@@ -179,10 +228,12 @@ function createGameCard(game) {
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
         
-        const rotateX = (y - centerY) / 5;
-        const rotateY = (centerX - x) / 5;
+        // Increased rotation intensity from /5 to /2 for MUCH more tilt
+        const rotateX = (y - centerY) / 2;
+        const rotateY = (centerX - x) / 2;
         
         card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+        card.style.transition = 'transform 0.1s ease-out';
         
         const mouseX = (x / rect.width) * 100;
         const mouseY = (y / rect.height) * 100;
@@ -193,6 +244,7 @@ function createGameCard(game) {
     card.addEventListener('mouseleave', () => {
         if (currentView === 'list') return;
         card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        card.style.transition = 'transform 0.5s ease';
     });
     
     card.addEventListener('click', (e) => {
