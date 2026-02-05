@@ -87,7 +87,7 @@ function checkBlocked() {
                         <h1>SECRET PAGE!!!</h1>
                         <p>you have accessed the secret page!!!</p>
                         <p>scroll down to unlock</p>
-                        <br><br>
+                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                         <p>i meant to say...</p>
                         <p>whyd you press the button</p>
                         <p>lets admire your stupidity</p>
