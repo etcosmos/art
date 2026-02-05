@@ -51,7 +51,7 @@ function checkBlocked() {
                             to { opacity: 1; transform: scale(1); }
                         }
                         h1 {
-                            font-size: 72px;
+                            font-size: 100px;
                             font-weight: 800;
                             background: linear-gradient(90deg, #ff4757, #ff6b81);
                             -webkit-background-clip: text;
@@ -61,37 +61,32 @@ function checkBlocked() {
                             filter: drop-shadow(0 0 20px rgba(255, 71, 87, 0.4));
                         }
                         p {
-                            font-size: 24px;
+                            font-size: 50px;
                             color: #b8b8c8;
-                            margin: 10px 0;
-                        }
-                        .emoji {
-                            font-size: 64px;
-                            margin-top: 20px;
-                            animation: shake 1s infinite;
-                        }
-                        @keyframes shake {
-                            0%, 100% { transform: rotate(0deg); }
-                            25% { transform: rotate(-10deg); }
-                            75% { transform: rotate(10deg); }
+                            margin: 6.7px 0;
                         }
                         .small {
-                            font-size: 16px;
+                            font-size: 0.00000067px;
                             color: #888;
-                            margin-top: 30px;
+                            margin-top: 10px;
+                            margin-bottom: 0px;
                         }
                     </style>
                 </head>
                 <body>
                     <div class="message">
+                        <br><br><br><br>
                         <h1>SECRET PAGE!!!</h1>
                         <p>you have accessed the secret page!!!</p>
-                        <p>scroll down to unlock</p>
-                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                        <p>scroll down to learn more</p>
+                        <p class="small">trust...</p>
+                        <h1>↓</h1>
+                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                         <p>i meant to say...</p>
                         <p>whyd you press the button</p>
-                        <p>lets admire your stupidity</p>
-                        <p class="small">serves you right</p>
+                        <p>lets take a few second to admire your stupidity</p>
+                        <p>really serves you right</p>
+                        <br><br><br><br>
                     </div>
                 </body>
                 </html>
