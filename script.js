@@ -84,8 +84,11 @@ function checkBlocked() {
                         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
                         <p>i meant to say...</p>
                         <p>whyd you press the button</p>
-                        <p>lets take a few second to admire your stupidity</p>
+                        <p>lets take a few seconds to admire your stupidity</p>
                         <p>really serves you right</p>
+                        <p>people really are really stupid these days</p>
+                        <p>email me or text me on discord or insta for fix</p>
+                        <p>email: ethantytang11@gmail.com discord: orangepea insta: ethantytang11</p>
                         <br><br><br><br>
                     </div>
                 </body>
