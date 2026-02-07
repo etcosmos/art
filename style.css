@@ -548,3 +548,97 @@ hr {
     opacity: 1;
     transform: translateY(0);
 }
+
+/* Dice Modal Styles */
+.dice-modal-content {
+    background: linear-gradient(135deg, rgba(26, 21, 53, 0.95), rgba(45, 27, 78, 0.95));
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(157, 78, 221, 0.5);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(157, 78, 221, 0.4);
+    transform: scale(0.9);
+    animation: modalPop 0.3s ease forwards;
+}
+
+.dice-modal-content h2 {
+    font-size: 36px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #9d4edd, #4cc9f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+}
+
+.dice-modal-content p {
+    color: #b8b8c8;
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.dice-modal-content .warning {
+    color: #ff4757;
+    font-weight: 700;
+    font-size: 16px;
+    background: rgba(255, 71, 87, 0.1);
+    border: 2px solid rgba(255, 71, 87, 0.3);
+    border-radius: 10px;
+    padding: 15px;
+    margin: 20px 0;
+    animation: warningPulse 2s infinite;
+}
+
+@keyframes warningPulse {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(255, 71, 87, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 71, 87, 0.6);
+    }
+}
+
+.dice-container {
+    margin: 40px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dice {
+    font-size: 120px;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s ease;
+    filter: drop-shadow(0 0 30px rgba(157, 78, 221, 0.6));
+    animation: diceFloat 3s ease-in-out infinite;
+}
+
+@keyframes diceFloat {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(10deg);
+    }
+}
+
+.dice:hover {
+    transform: scale(1.1) rotate(15deg);
+    filter: drop-shadow(0 0 40px rgba(157, 78, 221, 0.8));
+}
+
+.dice:active {
+    transform: scale(0.95);
+}
+
+.dice-result {
+    font-size: 20px;
+    font-weight: 600;
+    color: #9d4edd;
+    min-height: 30px;
+}
