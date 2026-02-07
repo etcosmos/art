@@ -9,7 +9,7 @@ const timer = setInterval(() => {
     if (countdown > 0) {
         timerText.textContent = `Please wait ${countdown} second${countdown !== 1 ? 's' : ''}...`;
     } else {
-        timerText.textContent = 'You can close now!';
+        timerText.textContent = 'You can close now';
         closeBtn.disabled = false;
         closeBtn.classList.add('enabled');
         clearInterval(timer);
@@ -24,77 +24,144 @@ closeBtn.addEventListener('click', () => {
 // Check if user is blocked
 function checkBlocked() {
     try {
-        const isDestroyed = localStorage.getItem('destroy');
-        if (isDestroyed === 'true') {
-            document.body.innerHTML = `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Access Denied</title>
-                    <style>
-                        body {
-                            margin: 0;
-                            padding: 0;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                            min-height: 100vh;
-                            background: linear-gradient(135deg, #0a0e27 0%, #1a1535 50%, #2d1b4e 100%);
-                            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                        }
-                        .message {
-                            text-align: center;
-                            animation: fadeIn 0.5s ease;
-                        }
-                        @keyframes fadeIn {
-                            from { opacity: 0; transform: scale(0.8); }
-                            to { opacity: 1; transform: scale(1); }
-                        }
-                        h1 {
-                            font-size: 72px;
-                            font-weight: 800;
-                            background: linear-gradient(90deg, #ff4757, #ff6b81);
-                            -webkit-background-clip: text;
-                            -webkit-text-fill-color: transparent;
-                            background-clip: text;
-                            margin-bottom: 20px;
-                            filter: drop-shadow(0 0 20px rgba(255, 71, 87, 0.4));
-                        }
-                        p {
-                            font-size: 24px;
-                            color: #b8b8c8;
-                            margin: 10px 0;
-                        }
-                        .emoji {
-                            font-size: 64px;
-                            margin-top: 20px;
-                            animation: shake 1s infinite;
-                        }
-                        @keyframes shake {
-                            0%, 100% { transform: rotate(0deg); }
-                            25% { transform: rotate(-10deg); }
-                            75% { transform: rotate(10deg); }
-                        }
-                        .small {
-                            font-size: 16px;
-                            color: #888;
-                            margin-top: 30px;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <div class="message">
-                        <h1>🚫 ACCESS DENIED 🚫</h1>
-                        <p>You clicked the button.</p>
-                        <p>You were warned.</p>
-                        <p>Now you're blocked. Forever.</p>
-                        <div class="emoji">💀</div>
-                        <p class="small">Serves you right for not listening.</p>
-                    </div>
-                </body>
-                </html>
-            `;
-            throw new Error('User is blocked');
+        const destroyTimestamp = localStorage.getItem('destroy');
+        if (destroyTimestamp) {
+            const blockTime = parseInt(destroyTimestamp);
+            const banDays = parseInt(localStorage.getItem('banDays') || '7');
+            const now = Date.now();
+            const banDuration = banDays * 24 * 60 * 60 * 1000; // Convert days to milliseconds
+            const timeRemaining = (blockTime + banDuration) - now;
+            
+            // If still blocked
+            if (timeRemaining > 0) {
+                // Calculate time remaining
+                const days = Math.floor(timeRemaining / (24 * 60 * 60 * 1000));
+                const hours = Math.floor((timeRemaining % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+                const minutes = Math.floor((timeRemaining % (60 * 60 * 1000)) / (60 * 1000));
+                const seconds = Math.floor((timeRemaining % (60 * 1000)) / 1000);
+                
+                const banMessage = banDays === 7 
+                    ? "good try. banned for 7 days" 
+                    : `you rolled a ${banDays}`;
+                
+                document.body.innerHTML = `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Access Denied</title>
+                        <style>
+                            body {
+                                margin: 0;
+                                padding: 0;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                min-height: 100vh;
+                                background: linear-gradient(135deg, #0a0e27 0%, #1a1535 50%, #2d1b4e 100%);
+                                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                            }
+                            .message {
+                                text-align: center;
+                                animation: fadeIn 0.5s ease;
+                            }
+                            @keyframes fadeIn {
+                                from { opacity: 0; transform: scale(0.8); }
+                                to { opacity: 1; transform: scale(1); }
+                            }
+                            h1 {
+                                font-size: 72px;
+                                font-weight: 800;
+                                background: linear-gradient(90deg, #ff4757, #ff6b81);
+                                -webkit-background-clip: text;
+                                -webkit-text-fill-color: transparent;
+                                background-clip: text;
+                                margin-bottom: 20px;
+                                filter: drop-shadow(0 0 20px rgba(255, 71, 87, 0.4));
+                            }
+                            p {
+                                font-size: 24px;
+                                color: #b8b8c8;
+                                margin: 10px 0;
+                            }
+                            .countdown {
+                                font-size: 48px;
+                                font-weight: 800;
+                                background: linear-gradient(90deg, #9d4edd, #4cc9f0);
+                                -webkit-background-clip: text;
+                                -webkit-text-fill-color: transparent;
+                                background-clip: text;
+                                margin: 30px 0;
+                                filter: drop-shadow(0 0 20px rgba(157, 78, 221, 0.4));
+                                font-family: 'Courier New', monospace;
+                            }
+                            .emoji {
+                                font-size: 64px;
+                                margin-top: 20px;
+                                animation: shake 1s infinite;
+                            }
+                            @keyframes shake {
+                                0%, 100% { transform: rotate(0deg); }
+                                25% { transform: rotate(-10deg); }
+                                75% { transform: rotate(10deg); }
+                            }
+                            .small {
+                                font-size: 16px;
+                                color: #888;
+                                margin-top: 30px;
+                            }
+                            .ban-reason {
+                                font-size: 20px;
+                                color: #9d4edd;
+                                margin-top: 20px;
+                                font-weight: 600;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="message">
+                            <h1>nice job.</h1>
+                            <p>you clicked the button.</p>
+                            <p>doing this for a experiment to see whos this stupid</p>
+                            <p class="ban-reason">${banMessage}</p>
+                            <div class="countdown" id="countdown">${days}d ${hours}h ${minutes}m ${seconds}s</div>
+                            <div class="emoji">${banDays === 7 ? '😈' : '🎲'}</div>
+                            <p class="small">time remaining</p>
+                        </div>
+                        <script>
+                            const blockTime = ${blockTime};
+                            const banDuration = ${banDuration};
+                            
+                            function updateCountdown() {
+                                const now = Date.now();
+                                const timeRemaining = (blockTime + banDuration) - now;
+                                
+                                if (timeRemaining <= 0) {
+                                    localStorage.removeItem('destroy');
+                                    localStorage.removeItem('banDays');
+                                    window.location.reload();
+                                    return;
+                                }
+                                
+                                const days = Math.floor(timeRemaining / (24 * 60 * 60 * 1000));
+                                const hours = Math.floor((timeRemaining % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
+                                const minutes = Math.floor((timeRemaining % (60 * 60 * 1000)) / (60 * 1000));
+                                const seconds = Math.floor((timeRemaining % (60 * 1000)) / 1000);
+                                
+                                document.getElementById('countdown').textContent = 
+                                    days + 'd ' + hours + 'h ' + minutes + 'm ' + seconds + 's';
+                            }
+                            
+                            setInterval(updateCountdown, 1000);
+                        </script>
+                    </body>
+                    </html>
+                `;
+                throw new Error('User is blocked');
+            } else {
+                // Block expired, remove it
+                localStorage.removeItem('destroy');
+                localStorage.removeItem('banDays');
+            }
         }
     } catch (e) {
         console.log('Checking block status');
@@ -104,6 +171,108 @@ function checkBlocked() {
 // Run block check immediately
 checkBlocked();
 
+// Dice roll modal functionality
+function showDiceRollModal() {
+    // Create dice roll modal
+    const diceModal = document.createElement('div');
+    diceModal.className = 'modal-overlay show';
+    diceModal.innerHTML = `
+        <div class="dice-modal-content">
+            <h2>roll a die</h2>
+            <p>click the die to roll for your ban duration!</p>
+            <p class="warning">if you close this tab, you get a week!</p>
+            <div class="dice-container" id="diceContainer">
+                <div class="dice" id="dice">🎲</div>
+            </div>
+            <p class="dice-result" id="diceResult">click the die</p>
+        </div>
+    `;
+    document.body.appendChild(diceModal);
+    
+    // Set penalty flag if they try to close the tab
+    let hasRolled = false;
+    window.addEventListener('beforeunload', (e) => {
+        if (!hasRolled) {
+            // They're trying to close without rolling - give them 7 days
+            localStorage.setItem('destroy', Date.now().toString());
+            localStorage.setItem('banDays', '7');
+            e.preventDefault();
+            e.returnValue = '';
+        }
+    });
+    
+    // Dice roll logic
+    const dice = document.getElementById('dice');
+    const diceResult = document.getElementById('diceResult');
+    let isRolling = false;
+    
+    dice.addEventListener('click', async () => {
+        if (isRolling) return;
+        isRolling = true;
+        hasRolled = true;
+        
+        // Animate dice roll
+        let rollCount = 0;
+        const rollInterval = setInterval(() => {
+            const tempRoll = Math.floor(Math.random() * 6) + 1;
+            dice.textContent = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'][tempRoll - 1];
+            rollCount++;
+            
+            if (rollCount >= 15) {
+                clearInterval(rollInterval);
+                
+                // Final roll
+                const finalRoll = Math.floor(Math.random() * 6) + 1;
+                dice.textContent = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'][finalRoll - 1];
+                dice.style.transform = 'scale(1.5)';
+                
+                setTimeout(() => {
+                    diceResult.textContent = `You rolled a ${finalRoll}! You're banned for ${finalRoll} day${finalRoll !== 1 ? 's' : ''}!`;
+                    diceResult.style.color = '#ff4757';
+                    diceResult.style.fontSize = '24px';
+                    
+                    // Store the ban
+                    localStorage.setItem('destroy', Date.now().toString());
+                    localStorage.setItem('banDays', finalRoll.toString());
+                    
+                    // Log to Discord
+                    logToDiscord(finalRoll);
+                    
+                    setTimeout(() => {
+                        checkBlocked();
+                    }, 2000);
+                }, 500);
+            }
+        }, 100);
+    });
+}
+
+async function logToDiscord(days) {
+    const webhookUrl = 'https://your-worker.your-subdomain.workers.dev/log-click';
+    
+    try {
+        await Promise.race([
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    timestamp: new Date().toISOString(),
+                    userAgent: navigator.userAgent,
+                    url: window.location.href,
+                    banDays: days
+                })
+            }),
+            new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Timeout')), 3000)
+            )
+        ]);
+    } catch (error) {
+        console.log('Could not log to webhook');
+    }
+}
+
 // DO NOT TOUCH button functionality
 let hasClicked = false; // Prevent multiple clicks
 document.getElementById('doNotTouchBtn').addEventListener('click', async () => {
@@ -111,43 +280,8 @@ document.getElementById('doNotTouchBtn').addEventListener('click', async () => {
     if (hasClicked) return;
     hasClicked = true;
     
-    try {
-        // Set the destroy flag FIRST
-        localStorage.setItem('destroy', 'true');
-        
-        // Log to Discord webhook via Cloudflare Worker (only once)
-        // Replace with your actual worker URL
-        const webhookUrl = 'https://your-worker.your-subdomain.workers.dev/log-click';
-        
-        try {
-            // Use Promise.race to timeout after 3 seconds
-            await Promise.race([
-                fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        timestamp: new Date().toISOString(),
-                        userAgent: navigator.userAgent,
-                        url: window.location.href
-                    })
-                }),
-                new Promise((_, reject) => 
-                    setTimeout(() => reject(new Error('Timeout')), 3000)
-                )
-            ]);
-        } catch (error) {
-            console.log('Could not log to webhook');
-        }
-        
-        // Show the blocked page immediately
-        checkBlocked();
-    } catch (e) {
-        console.log('Could not set destroy flag');
-        // Still show blocked page even if localStorage fails
-        checkBlocked();
-    }
+    // Show dice roll modal
+    showDiceRollModal();
 });
 
 // Game functionality
