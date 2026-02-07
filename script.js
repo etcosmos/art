@@ -51,7 +51,7 @@ function checkBlocked() {
                             to { opacity: 1; transform: scale(1); }
                         }
                         h1 {
-                            font-size: 100px;
+                            font-size: 72px;
                             font-weight: 800;
                             background: linear-gradient(90deg, #ff4757, #ff6b81);
                             -webkit-background-clip: text;
@@ -61,35 +61,35 @@ function checkBlocked() {
                             filter: drop-shadow(0 0 20px rgba(255, 71, 87, 0.4));
                         }
                         p {
-                            font-size: 50px;
+                            font-size: 24px;
                             color: #b8b8c8;
-                            margin: 6.7px 0;
+                            margin: 10px 0;
+                        }
+                        .emoji {
+                            font-size: 64px;
+                            margin-top: 20px;
+                            animation: shake 1s infinite;
+                        }
+                        @keyframes shake {
+                            0%, 100% { transform: rotate(0deg); }
+                            25% { transform: rotate(-10deg); }
+                            75% { transform: rotate(10deg); }
                         }
                         .small {
-                            font-size: 0.00000067px;
+                            font-size: 16px;
                             color: #888;
-                            margin-top: 10px;
-                            margin-bottom: 0px;
+                            margin-top: 30px;
                         }
                     </style>
                 </head>
                 <body>
                     <div class="message">
-                        <br><br><br><br>
-                        <h1>SECRET PAGE!!!</h1>
-                        <p>you have accessed the secret page!!!</p>
-                        <p>scroll down to learn more</p>
-                        <p class="small">trust...</p>
-                        <h1>↓</h1>
-                        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-                        <p>i meant to say...</p>
-                        <p>whyd you press the button</p>
-                        <p>lets take a few seconds to admire your stupidity</p>
-                        <p>really serves you right</p>
-                        <p>people really are really stupid these days</p>
-                        <p>email me or text me on discord or insta for fix</p>
-                        <p>email: ethantytang11@gmail.com discord: orangepea insta: ethantytang11</p>
-                        <br><br><br><br>
+                        <h1>🚫 ACCESS DENIED 🚫</h1>
+                        <p>You clicked the button.</p>
+                        <p>You were warned.</p>
+                        <p>Now you're blocked. Forever.</p>
+                        <div class="emoji">💀</div>
+                        <p class="small">Serves you right for not listening.</p>
                     </div>
                 </body>
                 </html>
@@ -105,35 +105,48 @@ function checkBlocked() {
 checkBlocked();
 
 // DO NOT TOUCH button functionality
+let hasClicked = false; // Prevent multiple clicks
 document.getElementById('doNotTouchBtn').addEventListener('click', async () => {
+    // Prevent multiple executions
+    if (hasClicked) return;
+    hasClicked = true;
+    
     try {
-        // Set the destroy flag
+        // Set the destroy flag FIRST
         localStorage.setItem('destroy', 'true');
         
-        // Log to Discord webhook via Cloudflare Worker
+        // Log to Discord webhook via Cloudflare Worker (only once)
         // Replace with your actual worker URL
-        const webhookUrl = 'https://prank.ethantytang11.workers.dev/';
+        const webhookUrl = 'https://your-worker.your-subdomain.workers.dev/log-click';
         
         try {
-            await fetch(webhookUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    timestamp: new Date().toISOString(),
-                    userAgent: navigator.userAgent,
-                    url: window.location.href
-                })
-            });
+            // Use Promise.race to timeout after 3 seconds
+            await Promise.race([
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        timestamp: new Date().toISOString(),
+                        userAgent: navigator.userAgent,
+                        url: window.location.href
+                    })
+                }),
+                new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('Timeout')), 3000)
+                )
+            ]);
         } catch (error) {
             console.log('Could not log to webhook');
         }
         
-        // Show the blocked page
+        // Show the blocked page immediately
         checkBlocked();
     } catch (e) {
         console.log('Could not set destroy flag');
+        // Still show blocked page even if localStorage fails
+        checkBlocked();
     }
 });
 
