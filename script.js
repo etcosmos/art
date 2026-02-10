@@ -248,7 +248,7 @@ function showDiceRollModal() {
 }
 
 async function logToDiscord(days) {
-    const webhookUrl = 'https://your-worker.your-subdomain.workers.dev/log-click';
+    const webhookUrl = 'https://prank.ethantytang11.workers.dev/';
     
     try {
         await Promise.race([
