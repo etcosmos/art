@@ -399,12 +399,7 @@ function createGameCard(game) {
             if (!gameUrl.startsWith('http://') && !gameUrl.startsWith('https://') && !gameUrl.startsWith('/')) {
                 gameUrl = 'https://ethanytangcodes.github.io/art/' + gameUrl;
             }
-            // Use window.top to break out of iframe if embedded
-            if (window.top !== window.self) {
-                window.top.location.href = gameUrl;
-            } else {
-                window.location.href = gameUrl;
-            }
+            window.location.href = gameUrl;
         }
     });
     
@@ -509,12 +504,7 @@ document.getElementById('luckyBtn').addEventListener('click', () => {
     if (!gameUrl.startsWith('http://') && !gameUrl.startsWith('https://') && !gameUrl.startsWith('/')) {
         gameUrl = 'https://ethanytangcodes.github.io/art/' + gameUrl;
     }
-    // Use window.top to break out of iframe if embedded
-    if (window.top !== window.self) {
-        window.top.location.href = gameUrl;
-    } else {
-        window.location.href = gameUrl;
-    }
+    window.location.href = gameUrl;
 });
 
 // Search
