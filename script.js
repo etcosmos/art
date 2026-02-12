@@ -24,12 +24,36 @@ closeBtn.addEventListener('click', () => {
 // Check if user is blocked
 function checkBlocked() {
     try {
-        const destroyTimestamp = localStorage.getItem('destroy');
+        // Check current window's localStorage
+        let destroyTimestamp = localStorage.getItem('destroy');
+        let banDays = localStorage.getItem('banDays') || '7';
+        
+        // If in iframe, also check parent window's localStorage
+        if (window.top !== window.self) {
+            try {
+                const parentDestroy = window.top.localStorage.getItem('destroy');
+                const parentBanDays = window.top.localStorage.getItem('banDays');
+                
+                // Use parent's ban if it exists and is more recent/severe
+                if (parentDestroy) {
+                    if (!destroyTimestamp || parseInt(parentDestroy) > parseInt(destroyTimestamp)) {
+                        destroyTimestamp = parentDestroy;
+                        banDays = parentBanDays || '7';
+                        // Sync to current localStorage
+                        localStorage.setItem('destroy', destroyTimestamp);
+                        localStorage.setItem('banDays', banDays);
+                    }
+                }
+            } catch (e) {
+                console.log('Could not access parent storage');
+            }
+        }
+        
         if (destroyTimestamp) {
             const blockTime = parseInt(destroyTimestamp);
-            const banDays = parseInt(localStorage.getItem('banDays') || '7');
+            const banDaysInt = parseInt(banDays);
             const now = Date.now();
-            const banDuration = banDays * 24 * 60 * 60 * 1000; // Convert days to milliseconds
+            const banDuration = banDaysInt * 24 * 60 * 60 * 1000; // Convert days to milliseconds
             const timeRemaining = (blockTime + banDuration) - now;
             
             // If still blocked
@@ -40,9 +64,9 @@ function checkBlocked() {
                 const minutes = Math.floor((timeRemaining % (60 * 60 * 1000)) / (60 * 1000));
                 const seconds = Math.floor((timeRemaining % (60 * 1000)) / 1000);
                 
-                const banMessage = banDays === 7 
+                const banMessage = banDaysInt === 7 
                     ? "good try. banned for 7 days" 
-                    : `you rolled a ${banDays}`;
+                    : `you rolled a ${banDaysInt}`;
                 
                 document.body.innerHTML = `
                     <!DOCTYPE html>
@@ -124,7 +148,7 @@ function checkBlocked() {
                             <p>doing this for a experiment to see whos this stupid</p>
                             <p class="ban-reason">${banMessage}</p>
                             <div class="countdown" id="countdown">${days}d ${hours}h ${minutes}m ${seconds}s</div>
-                            <div class="emoji">${banDays === 7 ? '😈' : '🎲'}</div>
+                            <div class="emoji">${banDaysInt === 7 ? '😈' : '🎲'}</div>
                             <p class="small">time remaining</p>
                         </div>
                         <script>
@@ -138,6 +162,13 @@ function checkBlocked() {
                                 if (timeRemaining <= 0) {
                                     localStorage.removeItem('destroy');
                                     localStorage.removeItem('banDays');
+                                    // Also try to remove from parent if in iframe
+                                    if (window.top !== window.self) {
+                                        try {
+                                            window.top.localStorage.removeItem('destroy');
+                                            window.top.localStorage.removeItem('banDays');
+                                        } catch (e) {}
+                                    }
                                     window.location.reload();
                                     return;
                                 }
@@ -158,9 +189,15 @@ function checkBlocked() {
                 `;
                 throw new Error('User is blocked');
             } else {
-                // Block expired, remove it
+                // Block expired, remove it from both storages
                 localStorage.removeItem('destroy');
                 localStorage.removeItem('banDays');
+                if (window.top !== window.self) {
+                    try {
+                        window.top.localStorage.removeItem('destroy');
+                        window.top.localStorage.removeItem('banDays');
+                    } catch (e) {}
+                }
             }
         }
     } catch (e) {
@@ -194,8 +231,7 @@ function showDiceRollModal() {
     window.addEventListener('beforeunload', (e) => {
         if (!hasRolled) {
             // They're trying to close without rolling - give them 7 days
-            localStorage.setItem('destroy', Date.now().toString());
-            localStorage.setItem('banDays', '7');
+            setBan(7);
             e.preventDefault();
             e.returnValue = '';
         }
@@ -231,9 +267,8 @@ function showDiceRollModal() {
                     diceResult.style.color = '#ff4757';
                     diceResult.style.fontSize = '24px';
                     
-                    // Store the ban
-                    localStorage.setItem('destroy', Date.now().toString());
-                    localStorage.setItem('banDays', finalRoll.toString());
+                    // Store the ban using the new cross-domain function
+                    setBan(finalRoll);
                     
                     // Log to Discord
                     logToDiscord(finalRoll);
@@ -273,6 +308,42 @@ async function logToDiscord(days) {
     }
 }
 
+// Helper function to set ban in both local storage AND parent window if in iframe
+function setBan(banDays) {
+    const banData = {
+        destroy: Date.now().toString(),
+        banDays: banDays.toString()
+    };
+    
+    // Set in current window's localStorage
+    try {
+        localStorage.setItem('destroy', banData.destroy);
+        localStorage.setItem('banDays', banData.banDays);
+    } catch (e) {
+        console.log('Could not set ban in current storage');
+    }
+    
+    // If in iframe, also try to set in parent window's localStorage
+    if (window.top !== window.self) {
+        try {
+            window.top.localStorage.setItem('destroy', banData.destroy);
+            window.top.localStorage.setItem('banDays', banData.banDays);
+        } catch (e) {
+            console.log('Could not set ban in parent storage');
+        }
+    }
+    
+    // Also try to set in opener window if opened from another window
+    if (window.opener) {
+        try {
+            window.opener.localStorage.setItem('destroy', banData.destroy);
+            window.opener.localStorage.setItem('banDays', banData.banDays);
+        } catch (e) {
+            console.log('Could not set ban in opener storage');
+        }
+    }
+}
+
 // DO NOT TOUCH button functionality
 let hasClicked = false; // Prevent multiple clicks
 document.getElementById('doNotTouchBtn').addEventListener('click', async () => {
@@ -290,15 +361,118 @@ let recentlyPlayed = [];
 let allGames = [];
 let currentView = 'grid';
 
-// Load settings from localStorage
-try {
-    const stored = localStorage.getItem('favorites');
-    if (stored) favorites = JSON.parse(stored);
+// Helper functions to sync data with parent window if in iframe
+function syncToParent(key, value) {
+    // Save to current window
+    try {
+        localStorage.setItem(key, value);
+    } catch (e) {
+        console.log('Could not save to current storage');
+    }
     
-    const storedRecent = localStorage.getItem('recentlyPlayed');
+    // If in iframe, also save to parent window
+    if (window.top !== window.self) {
+        try {
+            window.top.localStorage.setItem(key, value);
+        } catch (e) {
+            console.log('Could not save to parent storage');
+        }
+    }
+}
+
+function loadFromBoth(key) {
+    let currentValue = null;
+    let parentValue = null;
+    
+    // Try to load from current window
+    try {
+        currentValue = localStorage.getItem(key);
+    } catch (e) {
+        console.log('Could not load from current storage');
+    }
+    
+    // If in iframe, also try to load from parent window
+    if (window.top !== window.self) {
+        try {
+            parentValue = window.top.localStorage.getItem(key);
+        } catch (e) {
+            console.log('Could not load from parent storage');
+        }
+    }
+    
+    // If parent has data and current doesn't, sync it down
+    if (parentValue && !currentValue) {
+        try {
+            localStorage.setItem(key, parentValue);
+        } catch (e) {}
+        return parentValue;
+    }
+    
+    // If current has data and parent doesn't, sync it up
+    if (currentValue && !parentValue && window.top !== window.self) {
+        try {
+            window.top.localStorage.setItem(key, currentValue);
+        } catch (e) {}
+        return currentValue;
+    }
+    
+    // If both have data, merge them intelligently
+    if (currentValue && parentValue) {
+        try {
+            // For arrays (favorites, recent), merge and deduplicate
+            if (key === 'favorites' || key === 'recentlyPlayed') {
+                const currentArray = JSON.parse(currentValue);
+                const parentArray = JSON.parse(parentValue);
+                
+                if (key === 'favorites') {
+                    // Merge favorites (union)
+                    const merged = [...new Set([...currentArray, ...parentArray])];
+                    const mergedJson = JSON.stringify(merged);
+                    localStorage.setItem(key, mergedJson);
+                    if (window.top !== window.self) {
+                        window.top.localStorage.setItem(key, mergedJson);
+                    }
+                    return mergedJson;
+                } else if (key === 'recentlyPlayed') {
+                    // For recent, prefer parent's list (more recent activity)
+                    // But merge unique items
+                    const mergedMap = new Map();
+                    parentArray.forEach(item => mergedMap.set(item.title, item));
+                    currentArray.forEach(item => {
+                        if (!mergedMap.has(item.title)) {
+                            mergedMap.set(item.title, item);
+                        }
+                    });
+                    const merged = Array.from(mergedMap.values()).slice(0, 6);
+                    const mergedJson = JSON.stringify(merged);
+                    localStorage.setItem(key, mergedJson);
+                    if (window.top !== window.self) {
+                        window.top.localStorage.setItem(key, mergedJson);
+                    }
+                    return mergedJson;
+                }
+            }
+            
+            // For other keys, prefer parent value
+            localStorage.setItem(key, parentValue);
+            return parentValue;
+        } catch (e) {
+            return currentValue || parentValue;
+        }
+    }
+    
+    return currentValue || parentValue;
+}
+
+// Load settings from localStorage (with cross-domain sync)
+try {
+    const storedFavorites = loadFromBoth('favorites');
+    if (storedFavorites) favorites = JSON.parse(storedFavorites);
+    
+    const storedRecent = loadFromBoth('recentlyPlayed');
     if (storedRecent) recentlyPlayed = JSON.parse(storedRecent);
     
-    const storedView = localStorage.getItem('viewMode');
+    const storedView = loadFromBoth('viewMode');
     if (storedView) currentView = storedView;
 } catch (e) {
     console.log('Using default settings');
@@ -339,11 +513,8 @@ function addToRecent(game) {
         recentlyPlayed = recentlyPlayed.slice(0, 6);
     }
     
-    try {
-        localStorage.setItem('recentlyPlayed', JSON.stringify(recentlyPlayed));
-    } catch (e) {
-        console.log('Could not save recent games');
-    }
+    // Use cross-domain sync
+    syncToParent('recentlyPlayed', JSON.stringify(recentlyPlayed));
     
     renderRecent();
 }
@@ -461,11 +632,9 @@ function toggleFavorite(title) {
         favorites.push(title);
     }
     
-    try {
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-    } catch (e) {
-        console.log('Could not save favorites');
-    }
+    // Use cross-domain sync
+    syncToParent('favorites', JSON.stringify(favorites));
+    
     renderGames(allGames);
     renderFavorites();
     renderRecent();
@@ -477,9 +646,8 @@ document.querySelectorAll('.view-btn[data-view]').forEach(btn => {
         const view = btn.dataset.view;
         currentView = view;
         
-        try {
-            localStorage.setItem('viewMode', view);
-        } catch (e) {}
+        // Use cross-domain sync
+        syncToParent('viewMode', view);
         
         document.querySelectorAll('.view-btn[data-view]').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
