@@ -505,7 +505,7 @@
     "image": "projects/escaperoad/splash.jpg"
   },
   {
-    "title": "Escape road",
+    "title": "Escape road 2",
     "link": "projects/escaperoad2/index.html",
     "image": "projects/escaperoad2/splash.png"
   },
@@ -568,6 +568,11 @@
     "title": "Fireboy Watergirl 4",
     "link": "projects/fireboywatergirl4/index.html",
     "image": "projects/fireboywatergirl4/300.jpg"
+  },
+  {
+    "title": "Five Nights at Epstein's",
+    "link": "projects/fnaepsteins/index.html",
+    "image": "projects/fnaepsteins/splash.png"
   },
   {
     "title": "Flappy bird",
