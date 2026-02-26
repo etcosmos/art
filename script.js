@@ -355,7 +355,39 @@ document.getElementById('doNotTouchBtn').addEventListener('click', async () => {
     showDiceRollModal();
 });
 
-// Game functionality
+// ── Play Count Tracking ──────────────────────────────────────────────────────
+
+function getPlayCounts() {
+    try {
+        return JSON.parse(localStorage.getItem('playCounts') || '{}');
+    } catch (e) {
+        return {};
+    }
+}
+
+function getPlayCount(title) {
+    return getPlayCounts()[title] || 0;
+}
+
+function incrementPlayCount(title) {
+    try {
+        const counts = getPlayCounts();
+        counts[title] = (counts[title] || 0) + 1;
+        localStorage.setItem('playCounts', JSON.stringify(counts));
+
+        // Sync to parent if in iframe
+        if (window.top !== window.self) {
+            try {
+                window.top.localStorage.setItem('playCounts', JSON.stringify(counts));
+            } catch (e) {}
+        }
+    } catch (e) {
+        console.log('Could not update play count');
+    }
+}
+
+// ── Game functionality ───────────────────────────────────────────────────────
+
 let favorites = [];
 let recentlyPlayed = [];
 let allGames = [];
@@ -506,7 +538,30 @@ function applyViewSettings() {
     }
 }
 
+async function trackGameClick(game) {
+    try {
+        await fetch('https://gamecount.ethantytang11.workers.dev/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                game: game.title,
+                link: game.link,
+                timestamp: new Date().toISOString(),
+                userAgent: navigator.userAgent,
+                url: window.location.href
+            })
+        });
+    } catch (e) {
+        // Silently fail — don't block navigation
+    }
+}
+
 function addToRecent(game) {
+    // Increment play count first
+    incrementPlayCount(game.title);
+    // Track click on remote worker (fire and forget)
+    trackGameClick(game);
+
     recentlyPlayed = recentlyPlayed.filter(g => g.title !== game.title);
     recentlyPlayed.unshift(game);
     if (recentlyPlayed.length > 6) {
@@ -522,6 +577,11 @@ function addToRecent(game) {
 function createGameCard(game) {
     const card = document.createElement('div');
     const isFav = favorites.includes(game.title);
+    const playCount = getPlayCount(game.title);
+    const playLabel = playCount === 0
+        ? 'never played'
+        : `played: ${playCount} time${playCount !== 1 ? 's' : ''}`;
+
     card.className = 'game-card';
     card.innerHTML = `
         <div class="favorite-btn ${isFav ? 'active' : ''}" data-title="${game.title}">
@@ -529,7 +589,10 @@ function createGameCard(game) {
         </div>
         <img src="${game.image}" class="game-image" alt="${game.title}">
         <div class="game-info">
-            <div class="game-title">${game.title}</div>
+            <div class="game-hover-info">
+                <div class="game-title">${game.title}</div>
+                <div class="game-play-count">${playLabel}</div>
+            </div>
         </div>
     `;
     
