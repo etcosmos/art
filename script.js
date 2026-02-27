@@ -631,7 +631,7 @@ function createGameCard(game) {
             addToRecent(game);
             let gameUrl = game.link;
             if (!gameUrl.startsWith('http://') && !gameUrl.startsWith('https://') && !gameUrl.startsWith('/')) {
-                gameUrl = 'https://ethanytangcodes.github.io/art/' + gameUrl;
+                gameUrl = 'https://etcosmos.github.io/art/' + gameUrl;
             }
             window.location.href = gameUrl;
         }
@@ -733,7 +733,7 @@ document.getElementById('luckyBtn').addEventListener('click', () => {
     
     let gameUrl = randomGame.link;
     if (!gameUrl.startsWith('http://') && !gameUrl.startsWith('https://') && !gameUrl.startsWith('/')) {
-        gameUrl = 'https://ethanytangcodes.github.io/art/' + gameUrl;
+        gameUrl = 'https://etcosmos.github.io/art/' + gameUrl;
     }
     window.location.href = gameUrl;
 });
