@@ -1235,6 +1235,11 @@
     "image": "projects/poom/cover.svg"
   },
   {
+    "title": "Poor bunny",
+    "link": "projects/poorbunny/index.html",
+    "image": "projects/poorbunny/splash.png"
+  },
+  {
     "title": "Portal",
     "link": "projects/portalflash/index.html",
     "image": "projects/portalflash/portaltheflashversion.jpg"
