@@ -705,11 +705,6 @@
     "image": "projects/gdlite/logo.png"
   },
   {
-    "title": "Geodash scratch",
-    "link": "projects/geodash/index.html",
-    "image": "projects/geodash/geoscratchicon.png"
-  },
-  {
     "title": "Geodash",
     "link": "projects/geometrydash/index.html",
     "image": "projects/geometrydash/icon.png"
