@@ -705,9 +705,9 @@
     "image": "projects/gdlite/logo.png"
   },
   {
-    "title": "Geodash",
-    "link": "projects/geometrydash/index.html",
-    "image": "projects/geometrydash/icon.png"
+    "title": "Geometry dash",
+    "link": "https://etcosmos.github.io/gd/index.html",
+    "image": "https://etcosmos.github.io/gd/logo.svg"
   },
   {
     "title": "GeoRASH",
