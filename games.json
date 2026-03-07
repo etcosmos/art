@@ -1,10 +1,5 @@
 [
   {
-    "title": "Back to Home",
-    "link": "https://etcosmos.github.io/index.html",
-    "image": "Assets/home.png"
-  },
-  {
     "title": "1",
     "link": "projects/1/index.html",
     "image": "projects/1/meta/apple-touch-icon.png"
